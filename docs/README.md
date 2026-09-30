@@ -1,2 +1,3 @@
 # docs
-Guías de instalación y uso (próximo paso).
+
+- [Instalación: Claude Code + Gmail + BCP](instalacion.md)

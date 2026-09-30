@@ -18,6 +18,7 @@ reports/
 *.json
 # Excepción: los ejemplos ficticios sí se versionan
 !examples/**
+!.claude/settings.json
 
 # --- Sistema ---
 .DS_Store

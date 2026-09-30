@@ -8,6 +8,10 @@ Money Pal usa **Claude Code + tu Gmail** para leer las notificaciones de consumo
 
 ---
 
+## Empieza aquí
+
+👉 [Guía de instalación: Claude Code + Gmail + BCP](docs/instalacion.md)
+
 ## ¿Qué hace?
 
 - **Lee tus correos de consumo** del banco desde tu Gmail (solo lectura).
@@ -40,7 +44,7 @@ money-pal/
 ## Hoja de ruta
 
 1. [x] Repositorio, licencia y reglas de privacidad
-2. [ ] Guía de instalación: Claude Code + Gmail + BCP
+2. [x] [Guía de instalación: Claude Code + Gmail + BCP](docs/instalacion.md)
 3. [ ] Lector de correos BCP + definición de categorías
 4. [ ] Exportación a Excel y PDF
 5. [ ] Rutina de fin de mes (comparativo 3 / 6 / 12 / 18 meses)
