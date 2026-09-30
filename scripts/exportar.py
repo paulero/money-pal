@@ -162,6 +162,14 @@ def exportar_excel(filas, cats, tc, meses_periodo, ruta, cierre=None):
             celda.fill, celda.font = cabecera, blanco
             celda.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
 
+    def fila_datos(ws, valores):
+        """Agrega una fila de datos. Un texto que empieza con "=" (p. ej. un comercio sacado de un correo)
+        queda como texto: nunca se convierte en fórmula de Excel."""
+        ws.append(valores)
+        for celda in ws[ws.max_row]:
+            if isinstance(celda.value, str) and celda.value.startswith("="):
+                celda.data_type, celda.quotePrefix = "s", True
+
     def anchos(ws, valores):
         for i, w in enumerate(valores, 1):
             ws.column_dimensions[get_column_letter(i)].width = w
@@ -180,7 +188,7 @@ def exportar_excel(filas, cats, tc, meses_periodo, ruta, cierre=None):
     tabla(ws, 4, cols)
     r = 5
     for c in resumir(filas, cats, tc):
-        ws.append([c["nombre"], c["n"], round(c["PEN"], 2), round(c["USD"], 2), round(c["aprox"], 2), c["pct"]])
+        fila_datos(ws, [c["nombre"], c["n"], round(c["PEN"], 2), round(c["USD"], 2), round(c["aprox"], 2), c["pct"]])
         if c["presupuesto"]:
             ws.cell(r, 7, c["presupuesto"])
             ws.cell(r, 8, f"=G{r}*{meses_periodo}")
@@ -247,7 +255,7 @@ def exportar_excel(filas, cats, tc, meses_periodo, ruta, cierre=None):
         ws = wb.create_sheet(mes_nombre(m))
         tabla(ws, 1, ["Fecha", "Hora", "Comercio", "Categoría", "Tipo", "Banco", "Medio", "Moneda", "Monto"])
         for t in (t for t in filas if mes_clave(t["dt"]) == m):
-            ws.append([t["dt"].date(), t["dt"].strftime("%H:%M"), t["comercio"],
+            fila_datos(ws, [t["dt"].date(), t["dt"].strftime("%H:%M"), t["comercio"],
                        nombres.get(t.get("categoria"), SIN_CATEGORIA), TIPOS.get(t["tipo"], t["tipo"]),
                        nombre_banco(t.get("banco")), MEDIOS.get(t["medio"], t["medio"]), t["moneda"], t["monto"]])
             ws.cell(ws.max_row, 1).number_format = "DD/MM/YYYY"
@@ -261,7 +269,7 @@ def exportar_excel(filas, cats, tc, meses_periodo, ruta, cierre=None):
     tabla(ws, 1, ["Comercio", "Categoría", "Meses activos", "Total PEN", "Total USD", "Promedio mensual aprox. PEN"])
     rec = recurrentes(filas, tc)
     for x in rec:
-        ws.append([x["comercio"], nombres.get(x["cat"], SIN_CATEGORIA), x["meses"], round(x["PEN"], 2), round(x["USD"], 2), round(x["prom"], 2)])
+        fila_datos(ws, [x["comercio"], nombres.get(x["cat"], SIN_CATEGORIA), x["meses"], round(x["PEN"], 2), round(x["USD"], 2), round(x["prom"], 2)])
         ws.cell(ws.max_row, 4).number_format = ws.cell(ws.max_row, 6).number_format = soles
         ws.cell(ws.max_row, 5).number_format = dolares
     if not rec:
@@ -282,7 +290,7 @@ def exportar_excel(filas, cats, tc, meses_periodo, ruta, cierre=None):
         for i, f in enumerate(comp, 5):
             proms = [f["promedios"][n] for n in VENTANAS]
             vars_ = [variacion(f["mes"], b) for b in proms]
-            ws.append([f["nombre"], round(f["mes"], 2)] + [round(b, 2) if b is not None else None for b in proms]
+            fila_datos(ws, [f["nombre"], round(f["mes"], 2)] + [round(b, 2) if b is not None else None for b in proms]
                       + [v if v not in (None, float("inf")) else None for v in vars_]
                       + ["Sobre su promedio de 3 meses" if f["alerta"] else None])
             for j in range(2, 7):

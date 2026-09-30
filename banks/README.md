@@ -32,7 +32,7 @@ Si tienes cuenta en un banco que aún no está y recibes sus avisos de movimient
 2. En la carpeta `money-pal`, abre Claude Code y escribe `/nuevo-banco <banco>` (p. ej. `/nuevo-banco interbank`).
 3. Claude encuentra el remitente, clasifica los tipos de correo, escribe `banco.json`, lo prueba con tus correos reales **sin guardarlos**, crea pruebas con correos **inventados**, verifica con [`revisar_privacidad.py`](../scripts/revisar_privacidad.py) que no se filtre nada tuyo y, si aceptas, abre el Pull Request.
 
-Tus correos nunca salen de tu computadora: al repositorio solo llegan las reglas y los correos inventados.
+Tus correos nunca llegan al repositorio: solo se suben las reglas y los correos inventados.
 
 ## Formato de `banco.json`
 

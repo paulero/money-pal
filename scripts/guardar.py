@@ -17,16 +17,36 @@ el periodo: significa que antes de esa fecha no hay historial en Gmail.
 
 import argparse
 import json
+import os
+import shutil
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 REVISAR = ("transferencia", "retiro")
+RESPALDOS = 10  # copias anteriores que se guardan en data/respaldos/
 
 
 def leer_entrada(ruta):
     d = json.loads(Path(ruta).read_text(encoding="utf-8"))
     return d["trx"] if isinstance(d, dict) else d
+
+
+def escribir_seguro(ruta, datos):
+    """Guarda sin riesgo de dejar el archivo a medias: respalda la versión anterior en data/respaldos/
+    (se quedan las últimas RESPALDOS), escribe a un temporal y lo reemplaza de una sola vez."""
+    if ruta.exists():
+        respaldos = ruta.parent / "respaldos"
+        respaldos.mkdir(exist_ok=True)
+        shutil.copy2(ruta, respaldos / f"{ruta.stem}_{datetime.now():%Y-%m-%d_%H%M%S}.json")
+        for viejo in sorted(respaldos.glob(f"{ruta.stem}_*.json"))[:-RESPALDOS]:
+            viejo.unlink()
+    temporal = ruta.with_suffix(".json.tmp")
+    with open(temporal, "w", encoding="utf-8") as f:
+        f.write(json.dumps(datos, ensure_ascii=False, indent=2))
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(temporal, ruta)
 
 
 def categorizar(t, cats):
@@ -115,7 +135,7 @@ def main():
     datos["transacciones"] = sorted(datos["transacciones"] + nuevas, key=lambda t: t["fecha"])
     datos["actualizado"] = datetime.now().astimezone().isoformat(timespec="seconds")
     ruta_trx.parent.mkdir(exist_ok=True)
-    ruta_trx.write_text(json.dumps(datos, ensure_ascii=False, indent=2), encoding="utf-8")
+    escribir_seguro(ruta_trx, datos)
 
     por_tipo = {}
     for t in nuevas:

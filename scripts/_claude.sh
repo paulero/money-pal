@@ -5,6 +5,8 @@ export PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 RAIZ="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$RAIZ"
 mkdir -p output/logs
+# Los registros incluyen resúmenes de tus gastos: solo se guardan 90 días
+find output/logs -type f -mtime +90 -delete
 
 # Prepara el entorno de Python la primera vez
 if [ ! -x .venv/bin/python ]; then
