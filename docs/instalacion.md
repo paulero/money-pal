@@ -8,6 +8,7 @@ Esta guía te deja listo para que Money Pal lea tus consumos del BCP desde tu Gm
 - Una cuenta de [Claude](https://claude.ai) con un plan que incluya Claude Code (Pro o Max).
 - La cuenta de Gmail donde recibes las notificaciones del BCP.
 - Una tarjeta BCP con notificaciones de consumo por correo.
+- Python 3 (para exportar a Excel/PDF). En macOS, si `python3 --version` no responde, instálalo con `xcode-select --install`.
 
 ---
 
@@ -85,4 +86,4 @@ Si ves tu tabla, ¡estás listo! 🎉
 
 ---
 
-**Siguiente:** en Claude Code escribe `/leer-bcp 3 meses` y luego `/categorias`.
+**Siguiente:** en Claude Code escribe `/leer-bcp 3 meses`, luego `/categorias` y finalmente `/exportar`.
