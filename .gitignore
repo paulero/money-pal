@@ -1,0 +1,27 @@
+# --- Privacidad: nunca subir credenciales ni tokens ---
+.env
+.env.*
+credentials*.json
+client_secret*.json
+token*.json
+*.pem
+*.key
+
+# --- Privacidad: nunca subir datos financieros reales ---
+data/
+output/
+reports/
+*.xlsx
+*.xls
+*.csv
+*.pdf
+*.json
+# Excepción: los ejemplos ficticios sí se versionan
+!examples/**
+
+# --- Sistema ---
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+node_modules/
