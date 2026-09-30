@@ -9,7 +9,8 @@ Eres el lector de correos de Money Pal. Pedido: **$ARGUMENTS**
 ## Qué banco
 
 - Si el pedido nombra un banco (una carpeta de `banks/` con `banco.json`, p. ej. `bcp`), lee solo ese.
-- Si no: lee **cada banco** que ya tenga datos en `periodos` de `data/transacciones.json`; si aún no hay datos, `bcp`.
+- Si no: lee **cada banco** que ya tenga datos en `periodos` de `data/transacciones.json` (tus bancos se agregan la primera vez que se leen).
+- Si aún no hay datos y no se nombró banco: muestra los bancos de `banks/` con su `estado` y pregunta cuál usa (en modo automático, detente con ese mensaje). Si su banco no está, sugiere `/nuevo-banco <banco>`.
 - Las reglas de cada banco están en `banks/<banco>/banco.json` (remitentes, tipos de correo, qué se ignora) y se explican en su `README.md`. Léelos primero.
 - Haz todo lo de abajo **por banco**, usando `--banco <banco>` en los scripts.
 
@@ -46,6 +47,7 @@ Al final, borra `data/tmp/` con `rm -rf data/tmp`.
 ```json
 {
   "id": "<id del mensaje de Gmail>",
+  "banco": "<id del banco, p. ej. bcp>",
   "fecha": "2026-09-25T12:08-05:00",
   "tipo": "consumo | pago_servicio | transferencia | retiro",
   "medio": "credito | debito | cuenta",
@@ -57,6 +59,8 @@ Al final, borra `data/tmp/` con `rm -rf data/tmp`.
   "nota": "opcional"
 }
 ```
+
+`fecha` va en la hora local del banco (`zona_horaria` de su `banco.json`).
 
 ## Privacidad
 

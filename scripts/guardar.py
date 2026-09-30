@@ -5,8 +5,8 @@ filtra por el rango leído, quita duplicados, aplica tus reglas de data/categori
 periodo cubierto. Así Claude nunca tiene que reescribir el archivo completo.
 
 Uso:
-  .venv/bin/python scripts/guardar.py --desde 2026-05-01 --hasta 2026-05-31 data/tmp/2026-05*.json
-  .venv/bin/python scripts/guardar.py --desde 2026-05-01 --hasta 2026-05-31 --automatico data/tmp/*.json
+  .venv/bin/python scripts/guardar.py --banco bcp --desde 2026-05-01 --hasta 2026-05-31 data/tmp/bcp-2026-05*.json
+  .venv/bin/python scripts/guardar.py --banco interbank --desde 2026-05-01 --hasta 2026-05-31 --automatico data/tmp/*.json
 
 --automatico: las transferencias y retiros nuevos quedan con "pendiente": true para revisarlos luego.
 Si no llega ninguna transacción en el rango (ni nueva ni ya guardada), imprime SIN_CORREOS y no amplía
@@ -15,11 +15,10 @@ el periodo: significa que antes de esa fecha no hay historial en Gmail.
 
 import argparse
 import json
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
-LIMA = timezone(timedelta(hours=-5))
 REVISAR = ("transferencia", "retiro")
 
 
@@ -60,10 +59,10 @@ def periodo_comun(periodos):
 def main():
     p = argparse.ArgumentParser(description="Agrega transacciones nuevas a data/transacciones.json.")
     p.add_argument("archivos", nargs="*")
-    p.add_argument("--desde", required=True, help="AAAA-MM-DD, primer día leído (hora de Lima)")
-    p.add_argument("--hasta", required=True, help="AAAA-MM-DD, último día leído (hora de Lima)")
+    p.add_argument("--desde", required=True, help="AAAA-MM-DD, primer día leído (hora local del banco)")
+    p.add_argument("--hasta", required=True, help="AAAA-MM-DD, último día leído (hora local del banco)")
     p.add_argument("--automatico", action="store_true")
-    p.add_argument("--banco", default="bcp", help="Banco leído (carpeta en banks/); su periodo es el que se amplía")
+    p.add_argument("--banco", required=True, help="Banco leído (carpeta en banks/); su periodo es el que se amplía")
     p.add_argument("--datos", default=str(RAIZ / "data"))
     a = p.parse_args()
 
@@ -71,7 +70,7 @@ def main():
     ruta_trx, ruta_cat = Path(a.datos) / "transacciones.json", Path(a.datos) / "categorias.json"
     datos = json.loads(ruta_trx.read_text(encoding="utf-8")) if ruta_trx.exists() else \
         {"periodo": None, "periodos": {}, "transacciones": []}
-    if "periodos" not in datos:  # formato anterior: un solo banco
+    if "periodos" not in datos:  # formato anterior (solo existió con el BCP)
         datos["periodos"] = {datos.pop("banco", "bcp"): datos["periodo"]} if datos.get("periodo") else {}
     cats = json.loads(ruta_cat.read_text(encoding="utf-8")) if ruta_cat.exists() else {}
 
@@ -102,7 +101,7 @@ def main():
     datos["periodos"][a.banco] = periodo
     datos["periodo"] = periodo_comun(datos["periodos"])
     datos["transacciones"] = sorted(datos["transacciones"] + nuevas, key=lambda t: t["fecha"])
-    datos["actualizado"] = datetime.now(LIMA).isoformat(timespec="seconds")
+    datos["actualizado"] = datetime.now().astimezone().isoformat(timespec="seconds")
     ruta_trx.parent.mkdir(exist_ok=True)
     ruta_trx.write_text(json.dumps(datos, ensure_ascii=False, indent=2), encoding="utf-8")
 

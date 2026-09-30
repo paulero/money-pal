@@ -8,6 +8,16 @@ Cómo se convierten los correos de notificación del BCP en transacciones.
 
 Estado: ✅ verificado con 18 meses de correos reales (abril 2025 – septiembre 2026).
 
+## Activa las notificaciones
+
+1. Abre la app **Banca Móvil BCP** → **Configuración** → **Notificaciones por correo**.
+2. Activa los avisos de **consumos, pagos y transferencias** para tus tarjetas y cuentas.
+3. Verifica que lleguen a tu Gmail. Deberían verse así:
+   - **Remitente:** `notificaciones@notificacionesbcp.com.pe`
+   - **Asunto:** `Realizaste un consumo con tu Tarjeta de Crédito BCP - Servicio de Notificaciones BCP`
+
+> Los correos publicitarios del BCP (por ejemplo, de `bcpcomunica@email.bcp.com.pe`) **no** se usan.
+
 ## Búsqueda en Gmail
 
 ```

@@ -2,7 +2,7 @@
 
 **Tu asistente de gastos personales, open source y con la privacidad primero.**
 
-Money Pal usa **Claude Code + tu Gmail** para leer las notificaciones de consumo que te envía tu banco (empezamos con **BCP**), ordenarlas en categorías y generar un reporte en **Excel o PDF**. Todo corre en tu propia computadora: tus datos bancarios nunca se suben a este repositorio ni a ningún servidor nuestro.
+Money Pal usa **Claude Code + tu Gmail** para leer los avisos de movimientos que te envían **tus bancos** (hoy **BCP**, y cualquiera puede [agregar el suyo](banks/README.md) sin programar), ordenarlos en categorías y generar un reporte en **Excel o PDF**. Todo corre en tu propia computadora: tus datos bancarios nunca se suben a este repositorio ni a ningún servidor nuestro.
 
 > ⚠️ Proyecto en construcción. Avanzamos paso a paso; revisa la [hoja de ruta](#hoja-de-ruta).
 
@@ -10,9 +10,9 @@ Money Pal usa **Claude Code + tu Gmail** para leer las notificaciones de consumo
 
 ## Empieza aquí
 
-👉 [Guía de instalación: Claude Code + Gmail + BCP](docs/instalacion.md)
+👉 [Guía de instalación: Claude Code + Gmail + tu banco](docs/instalacion.md)
 
-Importa tu historial una vez con `scripts/importar-historial.sh 18` y programa las rutinas con `scripts/instalar-rutinas.sh`. No necesitas cambiar cómo usas tu Gmail.
+Importa tu historial una vez con `scripts/importar-historial.sh 18 <banco>` y programa las rutinas con `scripts/instalar-rutinas.sh`. No necesitas cambiar cómo usas tu Gmail.
 
 Luego, dentro de Claude Code en la carpeta `money-pal`:
 
@@ -56,7 +56,7 @@ Más detalles en [SECURITY.md](SECURITY.md).
 money-pal/
 ├── .claude/        # Comandos de Claude Code y reglas de seguridad
 ├── banks/          # Un folder por banco: reglas (banco.json) y pruebas
-│   └── bcp/        # Reglas para leer correos del BCP
+│   └── bcp/        # BCP (verificado); agrega el tuyo con /nuevo-banco
 ├── docs/           # Guías de instalación y uso
 ├── scripts/        # Exportación a Excel/PDF, comparativo mensual y rutina automática
 └── examples/       # Datos de ejemplo (ficticios)
@@ -65,8 +65,8 @@ money-pal/
 ## Hoja de ruta
 
 1. [x] Repositorio, licencia y reglas de privacidad
-2. [x] [Guía de instalación: Claude Code + Gmail + BCP](docs/instalacion.md)
-3. [x] Lector de correos BCP + definición de categorías (`/leer-correos`, `/categorias`)
+2. [x] [Guía de instalación: Claude Code + Gmail + tu banco](docs/instalacion.md)
+3. [x] Lector de correos (multi-banco) + definición de categorías (`/leer-correos`, `/categorias`)
 4. [x] Exportación a Excel y PDF (`/exportar`)
 5. [x] [Rutina de fin de mes](docs/rutina.md) (comparativo 3 / 6 / 12 / 18 meses, `/cierre-de-mes`)
 6. [x] Agregar otros bancos: [plantilla `banco.json`](banks/README.md), `/nuevo-banco` y pruebas automáticas

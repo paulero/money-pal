@@ -36,6 +36,16 @@ print((periodos.get(sys.argv[1]) or {}).get("desde", ""))
 PY
 }
 
+# Bancos con datos guardados (uno por línea). Los bancos se agregan la primera vez que se leen.
+bancos_con_datos() {
+  [ -f data/transacciones.json ] && .venv/bin/python - <<'PY' || true
+import json
+d = json.load(open("data/transacciones.json"))
+periodos = d.get("periodos") or ({"bcp": d["periodo"]} if d.get("periodo") else {})
+print("\n".join(periodos))
+PY
+}
+
 avisar() {
   command -v osascript >/dev/null && osascript -e "display notification \"$1\" with title \"Money Pal\"" || true
 }

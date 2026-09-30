@@ -57,6 +57,11 @@ def validar(banco_id):
                 errores.append(f"{donde}: una fuente 'cuerpo' necesita 'campos' (qué etiqueta del correo tiene cada dato)")
         else:
             errores.append(f"{donde}: 'fuente' debe ser 'snippet' o 'cuerpo'")
+    readme = ruta.parent / "README.md"
+    if not readme.exists():
+        errores.append("falta README.md (cómo activar los avisos, tipos de correo y dónde está cada dato)")
+    elif "## Activa las notificaciones" not in readme.read_text(encoding="utf-8"):
+        errores.append("README.md necesita la sección '## Activa las notificaciones'")
     return errores
 
 

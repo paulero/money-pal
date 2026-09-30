@@ -109,6 +109,23 @@ def recurrentes(filas, tc):
     return sorted(out, key=lambda r: -r["prom"])
 
 
+def nombre_banco(banco_id):
+    """Nombre corto del banco desde banks/<id>/banco.json (p. ej. "BCP")."""
+    ruta = RAIZ / "banks" / (banco_id or "") / "banco.json"
+    if banco_id and ruta.exists():
+        return json.loads(ruta.read_text(encoding="utf-8"))["nombre"].split(" · ")[0]
+    return banco_id or "—"
+
+
+def por_banco(filas, tc):
+    """[(nombre, transacciones, soles aprox.)] de mayor a menor."""
+    tot = defaultdict(lambda: [0, 0.0])
+    for t in filas:
+        tot[t.get("banco")][0] += 1
+        tot[t.get("banco")][1] += t["monto"] * (tc if t["moneda"] == "USD" else 1)
+    return sorted(((nombre_banco(b), n, v) for b, (n, v) in tot.items()), key=lambda x: -x[2])
+
+
 def top_comercios(filas, tc, n=10):
     tot = defaultdict(lambda: [0, 0.0])
     for t in filas:
@@ -170,6 +187,14 @@ def exportar_excel(filas, cats, tc, meses_periodo, ruta, cierre=None):
         fila[3].number_format, fila[5].number_format = dolares, pct
     anchos(ws, [28, 14, 14, 12, 16, 11, 16, 18, 14])
     ws.freeze_panes = "A5"
+    bancos = por_banco(filas, tc)
+    if len(bancos) > 1:
+        fila_b = ws.max_row + 2
+        tabla(ws, fila_b, ["Banco", "Transacciones", "Total aprox. PEN"])
+        for i, (nombre, n, v) in enumerate(bancos, fila_b + 1):
+            ws.cell(i, 1, nombre)
+            ws.cell(i, 2, n)
+            ws.cell(i, 3, round(v, 2)).number_format = soles
 
     # Por mes (categoría × mes, en soles aprox.)
     meses = sorted({mes_clave(t["dt"]) for t in filas})
@@ -202,16 +227,16 @@ def exportar_excel(filas, cats, tc, meses_periodo, ruta, cierre=None):
     # Una hoja por mes con el detalle
     for m in reversed(meses):
         ws = wb.create_sheet(mes_nombre(m))
-        tabla(ws, 1, ["Fecha", "Hora", "Comercio", "Categoría", "Tipo", "Medio", "Moneda", "Monto"])
+        tabla(ws, 1, ["Fecha", "Hora", "Comercio", "Categoría", "Tipo", "Banco", "Medio", "Moneda", "Monto"])
         for t in (t for t in filas if mes_clave(t["dt"]) == m):
             ws.append([t["dt"].date(), t["dt"].strftime("%H:%M"), t["comercio"],
                        nombres.get(t.get("categoria"), SIN_CATEGORIA), TIPOS.get(t["tipo"], t["tipo"]),
-                       MEDIOS.get(t["medio"], t["medio"]), t["moneda"], t["monto"]])
+                       nombre_banco(t.get("banco")), MEDIOS.get(t["medio"], t["medio"]), t["moneda"], t["monto"]])
             ws.cell(ws.max_row, 1).number_format = "DD/MM/YYYY"
-            ws.cell(ws.max_row, 8).number_format = soles if t["moneda"] == "PEN" else dolares
+            ws.cell(ws.max_row, 9).number_format = soles if t["moneda"] == "PEN" else dolares
         ws.freeze_panes = "A2"
         ws.auto_filter.ref = ws.dimensions
-        anchos(ws, [12, 8, 34, 24, 17, 10, 9, 12])
+        anchos(ws, [12, 8, 34, 24, 17, 12, 10, 9, 12])
 
     # Recurrentes
     ws = wb.create_sheet("Recurrentes")
@@ -357,6 +382,14 @@ def exportar_pdf(filas, cats, tc, meses_periodo, ruta, cierre=None):
         h.append(Paragraph("Gasto por mes (aprox. PEN)", h2))
         t = Table([["Mes", "Total"]] + [[mes_nombre(m), s(por_mes[m])] for m in meses],
                   colWidths=[ancho * .5, ancho * .5])
+        t.setStyle(estilo_tabla())
+        h.append(t)
+
+    bancos = por_banco(filas, tc)
+    if len(bancos) > 1:
+        h.append(Paragraph("Gasto por banco (aprox. PEN)", h2))
+        t = Table([["Banco", "Trx", "Total"]] + [[b, n, s(v)] for b, n, v in bancos],
+                  colWidths=[ancho * .6, ancho * .12, ancho * .28])
         t.setStyle(estilo_tabla())
         h.append(t)
 

@@ -48,7 +48,7 @@ Usa `banks/bcp/` como modelo y `banks/README.md` como referencia del formato. Tr
 9. **Genera y revisa el resultado esperado:**
    `.venv/bin/python scripts/probar_bancos.py <id> --actualizar`, muestra en una tabla lo que devolvió cada correo inventado y confirma que es correcto. Luego `.venv/bin/python scripts/probar_bancos.py` (todos los bancos) debe dar ✅.
 
-10. **Documenta:** crea `banks/<id>/README.md` siguiendo el de `banks/bcp/` (remitente, tabla de tipos, dónde está cada dato, cuidados; ejemplos inventados) y actualiza la tabla de `banks/README.md` con el estado 🧪 muestras.
+10. **Documenta:** crea `banks/<id>/README.md` siguiendo el de `banks/bcp/`: sección **"Activa las notificaciones"** (dónde se activan en la app del banco, remitente y un asunto de ejemplo), tabla de tipos, dónde está cada dato y cuidados, con ejemplos inventados. Agrega el banco a la tabla de `banks/README.md` (🧪 muestras) y a la de "Bancos disponibles" en `docs/instalacion.md`. Si existe un issue "Agregar banco: <Banco>", menciónalo en el Pull Request (`Closes #N`).
 
 11. **Úsalo tú primero.** Explica que ya puede leer este banco con `/leer-correos <id> 3 meses` o importar su historial en la Terminal con `scripts/importar-historial.sh 18 <id>`.
 

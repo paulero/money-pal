@@ -15,7 +15,12 @@ banks/
 | Banco | Estado |
 |---|---|
 | [BCP](bcp/) | ✅ verificado |
-| BBVA, Interbank, Scotiabank, Pichincha | 📋 buscado — ¿tienes cuenta? Corre `/nuevo-banco` |
+| BBVA | 📋 buscado · [#1](https://github.com/paulero/money-pal/issues/1) |
+| Interbank | 📋 buscado · [#2](https://github.com/paulero/money-pal/issues/2) |
+| Scotiabank | 📋 buscado · [#3](https://github.com/paulero/money-pal/issues/3) |
+| Pichincha | 📋 buscado · [#4](https://github.com/paulero/money-pal/issues/4) |
+
+¿Tienes cuenta en uno de los buscados? Corre `/nuevo-banco <banco>` y menciona su issue en el Pull Request. ¿Tu banco no está en la lista? [Abre un issue](https://github.com/paulero/money-pal/issues/new?labels=banco-buscado&title=Agregar%20banco:%20) o agrégalo directamente.
 
 Estados: `verificado` (probado con correos reales por varios meses) · `muestras` (definido con correos de una persona, falta más uso) · `buscado` (aún no existe).
 
