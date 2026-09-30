@@ -36,6 +36,7 @@ if [ "${1:-}" = "--quitar" ]; then
 fi
 
 mkdir -p "$AGENTES" "$RAIZ/output/logs"
+chmod 700 "$RAIZ/output"
 plist com.moneypal.sincronizar sincronizar.sh \
   "<dict><key>Weekday</key><integer>1</integer><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>" \
   > "$AGENTES/com.moneypal.sincronizar.plist"

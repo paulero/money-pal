@@ -20,6 +20,8 @@ from collections import defaultdict
 from datetime import date, datetime
 from pathlib import Path
 
+from privado import proteger_carpetas
+
 RAIZ = Path(__file__).resolve().parent.parent
 MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
          "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
@@ -459,6 +461,7 @@ def main():
     p.add_argument("--cierre", nargs="?", const="auto", metavar="AAAA-MM",
                    help="Reporte de cierre de mes con comparativo 3/6/12/18 meses (por defecto, el último mes completo)")
     a = p.parse_args()
+    proteger_carpetas()
 
     desde = parse_fecha(a.desde) if a.desde else None
     hasta = parse_fecha(a.hasta, fin=True) if a.hasta else None

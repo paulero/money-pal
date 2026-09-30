@@ -22,6 +22,8 @@ import shutil
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
+from privado import proteger_carpetas
+
 RAIZ = Path(__file__).resolve().parent.parent
 REVISAR = ("transferencia", "retiro")
 RESPALDOS = 10  # copias anteriores que se guardan en data/respaldos/
@@ -88,6 +90,7 @@ def main():
     p.add_argument("--banco", help="Banco leído (carpeta en banks/); su periodo es el que se amplía")
     p.add_argument("--datos", default=str(RAIZ / "data"))
     a = p.parse_args()
+    proteger_carpetas()
 
     if not Path(a.datos).resolve().is_relative_to(RAIZ / "data"):
         raise SystemExit(f"--datos debe estar dentro de data/ (recibido: {a.datos})")

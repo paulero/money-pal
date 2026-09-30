@@ -13,6 +13,7 @@ Money Pal maneja información financiera personal. Estas son nuestras reglas:
 ## Protecciones incluidas
 
 - **Rutinas automáticas limitadas.** Las rutinas sin supervisión solo pueden leer Gmail, leer el proyecto y escribir en `data/` y `output/`. Si un correo trae instrucciones escondidas, Claude no puede modificar scripts ni archivos fuera del proyecto.
+- **Solo tu usuario.** `data/` y `output/` quedan cerradas para otras cuentas de la computadora (permisos 700/600), y cada archivo nuevo se crea igual.
 - **Respaldos.** Antes de cada guardado se copia la versión anterior a `data/respaldos/` (las últimas 10), y el archivo se reemplaza de una sola vez para que un corte no lo deje a medias.
 - **Registros con fecha de vencimiento.** `output/logs/` incluye resúmenes de tus gastos y se borra automáticamente a los 90 días.
 - **Reportes sin fórmulas externas.** Un texto de un correo que empiece con `=` queda como texto en Excel, nunca como fórmula.

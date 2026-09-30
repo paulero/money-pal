@@ -20,6 +20,8 @@ import re
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+from privado import proteger_carpetas
+
 RAIZ = Path(__file__).resolve().parent.parent
 
 
@@ -109,6 +111,7 @@ def main():
     p.add_argument("--banco", required=True, help="Carpeta del banco en banks/ (p. ej. bcp)")
     p.add_argument("--salida", required=True, help="Archivo JSON de salida (p. ej. data/tmp/2026-05.json)")
     a = p.parse_args()
+    proteger_carpetas()
 
     # Solo dentro de data/tmp/: el texto de los correos no es confiable y nunca debe terminar en un script
     salida = Path(a.salida).resolve()
