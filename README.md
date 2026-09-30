@@ -20,12 +20,13 @@ Luego, dentro de Claude Code en la carpeta `money-pal`:
 | `/categorias` | Te propone 5 categorías según tus gastos, las ajustas a tu gusto y categoriza todo. |
 | `/categorias revisar` | Categoriza los gastos nuevos y te pregunta solo por comercios desconocidos. |
 | `/exportar` | Genera tu reporte en Excel y PDF en `output/` (también `/exportar pdf septiembre`). |
+| `/cierre-de-mes` | Rutina de fin de mes: lee lo nuevo, categoriza y compara el mes con tus promedios de 3, 6, 12 y 18 meses. Se puede [programar cada mes](docs/rutina.md). |
 
 Mira el formato con [datos de ejemplo](examples/), o genera un reporte de prueba sin tus datos:
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-.venv/bin/python scripts/exportar.py --ejemplo
+.venv/bin/python scripts/exportar.py --ejemplo --cierre
 ```
 
 ## ¿Qué hace?
@@ -54,7 +55,7 @@ money-pal/
 ├── banks/          # Un folder por banco o institución
 │   └── bcp/        # Reglas para leer correos del BCP
 ├── docs/           # Guías de instalación y uso
-├── scripts/        # Exportación a Excel y PDF
+├── scripts/        # Exportación a Excel/PDF, comparativo mensual y rutina automática
 └── examples/       # Datos de ejemplo (ficticios)
 ```
 
@@ -64,7 +65,7 @@ money-pal/
 2. [x] [Guía de instalación: Claude Code + Gmail + BCP](docs/instalacion.md)
 3. [x] Lector de correos BCP + definición de categorías (`/leer-bcp`, `/categorias`)
 4. [x] Exportación a Excel y PDF (`/exportar`)
-5. [ ] Rutina de fin de mes (comparativo 3 / 6 / 12 / 18 meses)
+5. [x] [Rutina de fin de mes](docs/rutina.md) (comparativo 3 / 6 / 12 / 18 meses, `/cierre-de-mes`)
 6. [ ] Guía para agregar otros bancos e instituciones
 7. [ ] Sugerencias según perfil (riesgo, edad, metas)
 

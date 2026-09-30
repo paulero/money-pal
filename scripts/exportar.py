@@ -8,6 +8,7 @@ Uso:
   .venv/bin/python scripts/exportar.py --desde 2026-09      # desde un mes
   .venv/bin/python scripts/exportar.py --formato pdf --tc 3.45
   .venv/bin/python scripts/exportar.py --ejemplo            # prueba con datos ficticios
+  .venv/bin/python scripts/exportar.py --cierre             # cierre del último mes completo, con comparativo
 
 Todo se genera en tu computadora; output/ está en .gitignore.
 """
@@ -118,7 +119,7 @@ def top_comercios(filas, tc, n=10):
 
 # ---------- Excel ----------
 
-def exportar_excel(filas, cats, tc, meses_periodo, ruta):
+def exportar_excel(filas, cats, tc, meses_periodo, ruta, cierre=None):
     from openpyxl import Workbook
     from openpyxl.styles import Alignment, Font, PatternFill
     from openpyxl.utils import get_column_letter
@@ -224,12 +225,42 @@ def exportar_excel(filas, cats, tc, meses_periodo, ruta):
         ws["A2"] = "Se necesitan al menos 2 meses de datos para detectar gastos recurrentes."
     anchos(ws, [34, 24, 14, 14, 12, 26])
 
+    if cierre:
+        from comparar import VENTANAS, nota_historia, variacion
+        mes, comp, disponibles = cierre
+        ws = wb.create_sheet("Cierre de mes", 0)
+        wb.active = 0
+        ws["A1"] = f"Cierre de {mes_nombre(mes).lower()} · comparado con meses anteriores (aprox. PEN)"
+        ws["A1"].font = Font(bold=True, size=14)
+        ws["A2"] = nota_historia(disponibles) or "Todos los promedios usan meses completos."
+        tabla(ws, 4, ["Categoría", mes_nombre(mes)] + [f"Promedio {n} meses" for n in VENTANAS]
+              + [f"vs {n}m" for n in VENTANAS] + ["Alerta"])
+        alerta = PatternFill("solid", fgColor="FEE2E2")
+        for i, f in enumerate(comp, 5):
+            proms = [f["promedios"][n] for n in VENTANAS]
+            vars_ = [variacion(f["mes"], b) for b in proms]
+            ws.append([f["nombre"], round(f["mes"], 2)] + [round(b, 2) if b is not None else None for b in proms]
+                      + [v if v not in (None, float("inf")) else None for v in vars_]
+                      + ["Sobre su promedio de 3 meses" if f["alerta"] else None])
+            for j in range(2, 7):
+                ws.cell(i, j).number_format = soles
+            for j in range(7, 11):
+                ws.cell(i, j).number_format = "+0%;-0%;0%"
+            if f["id"] == "__total__":
+                for celda in ws[i]:
+                    celda.font = negrita
+            if f["alerta"]:
+                for celda in ws[i]:
+                    celda.fill = alerta
+        anchos(ws, [28, 16, 14, 14, 14, 14, 9, 9, 9, 9, 28])
+        ws.freeze_panes = "B5"
+
     wb.save(ruta)
 
 
 # ---------- PDF ----------
 
-def exportar_pdf(filas, cats, tc, meses_periodo, ruta):
+def exportar_pdf(filas, cats, tc, meses_periodo, ruta, cierre=None):
     from reportlab.graphics.shapes import Drawing, Rect, String
     from reportlab.lib import colors
     from reportlab.lib.pagesizes import A4
@@ -263,6 +294,25 @@ def exportar_pdf(filas, cats, tc, meses_periodo, ruta):
     h = [Paragraph("Money Pal · Reporte de gastos", titulo),
          Paragraph(f"{desde:%d/%m/%Y} al {hasta:%d/%m/%Y} · {len(filas)} transacciones · "
                    f"USD convertido a S/ {tc:.2f} (aprox.)", sub), Spacer(1, 8)]
+
+    if cierre:
+        from comparar import VENTANAS, nota_historia, texto_variacion, variacion
+        mes, comp, disponibles = cierre
+        h[0] = Paragraph(f"Money Pal · Cierre de {mes_nombre(mes).lower()}", titulo)
+        h.append(Paragraph("Comparado con tus meses anteriores (aprox. PEN)", h2))
+        filas_c = [["Categoría", "Este mes"] + [f"Prom. {n}m" for n in VENTANAS] + ["vs 3m"]]
+        extra = []
+        for i, f in enumerate(comp, 1):
+            proms = [s(f["promedios"][n]) if f["promedios"][n] is not None else "—" for n in VENTANAS]
+            filas_c.append([f["nombre"], s(f["mes"]), *proms, texto_variacion(variacion(f["mes"], f["promedios"][3]))])
+            if f["alerta"]:
+                extra.append(("BACKGROUND", (0, i), (-1, i), colors.HexColor("#FEE2E2")))
+        extra += [("FONTNAME", (0, -1), (-1, -1), "Helvetica-Bold"), ("LINEABOVE", (0, -1), (-1, -1), 0.8, oscuro)]
+        t = Table(filas_c, colWidths=[ancho * w for w in (.26, .13, .13, .13, .13, .13, .09)])
+        t.setStyle(estilo_tabla(extra))
+        h.append(t)
+        leyenda = "En rojo: categorías que superan su promedio de 3 meses en más de 20% y S/ 100."
+        h += [Spacer(1, 4), Paragraph(" ".join(filter(None, [leyenda, nota_historia(disponibles)])), sub), Spacer(1, 6)]
 
     # Indicadores
     kpis = [("Gasto total aprox.", s(total_pen + total_usd * tc)), ("En soles", s(total_pen)),
@@ -338,6 +388,8 @@ def main():
     p.add_argument("--datos", default=str(RAIZ / "data"))
     p.add_argument("--ejemplo", action="store_true", help="Usa los datos ficticios de examples/")
     p.add_argument("--salida", default=str(RAIZ / "output"))
+    p.add_argument("--cierre", nargs="?", const="auto", metavar="AAAA-MM",
+                   help="Reporte de cierre de mes con comparativo 3/6/12/18 meses (por defecto, el último mes completo)")
     a = p.parse_args()
 
     desde = parse_fecha(a.desde) if a.desde else None
@@ -348,6 +400,14 @@ def main():
         rutas = Path(a.datos) / "transacciones.json", Path(a.datos) / "categorias.json"
     if not rutas[0].exists():
         raise SystemExit(f"No encontré {rutas[0]}. Corre /leer-bcp primero (o usa --ejemplo).")
+    mes_cierre = None
+    if a.cierre:
+        from comparar import ultimo_mes_completo
+        datos = json.loads(rutas[0].read_text(encoding="utf-8"))
+        mes_cierre = ultimo_mes_completo(datos["periodo"]) if a.cierre == "auto" else a.cierre
+        if not mes_cierre:
+            raise SystemExit("Aún no hay un mes completo de datos para el cierre.")
+        desde, hasta = desde or parse_fecha(mes_cierre), hasta or parse_fecha(mes_cierre, fin=True)
     filas, cats = cargar(*rutas, desde, hasta)
     if not filas:
         raise SystemExit("No hay transacciones en ese periodo. Revisa --desde / --hasta o corre /leer-bcp para traer más meses.")
@@ -356,14 +416,20 @@ def main():
     inicio, fin = desde or filas[0]["dt"].date(), hasta or filas[-1]["dt"].date()
     meses_periodo = max(round(((fin - inicio).days + 1) / 30.44 * 2) / 2, 0.5)
 
+    cierre = None
+    if mes_cierre:
+        from comparar import comparar
+        cierre = (mes_cierre, *comparar(datos["transacciones"], cats, datos["periodo"], mes_cierre, tc))
+
     salida = Path(a.salida)
     salida.mkdir(exist_ok=True)
-    base = salida / f"money-pal{'_ejemplo' if a.ejemplo else ''}_{filas[0]['dt']:%Y-%m-%d}_{filas[-1]['dt']:%Y-%m-%d}"
+    nombre = f"cierre_{mes_cierre}" if mes_cierre else f"{filas[0]['dt']:%Y-%m-%d}_{filas[-1]['dt']:%Y-%m-%d}"
+    base = salida / f"money-pal{'_ejemplo' if a.ejemplo else ''}_{nombre}"
     if a.formato in ("excel", "ambos"):
-        exportar_excel(filas, cats, tc, meses_periodo, base.with_suffix(".xlsx"))
+        exportar_excel(filas, cats, tc, meses_periodo, base.with_suffix(".xlsx"), cierre)
         print(f"Excel: {base.with_suffix('.xlsx')}")
     if a.formato in ("pdf", "ambos"):
-        exportar_pdf(filas, cats, tc, meses_periodo, base.with_suffix(".pdf"))
+        exportar_pdf(filas, cats, tc, meses_periodo, base.with_suffix(".pdf"), cierre)
         print(f"PDF:   {base.with_suffix('.pdf')}")
 
 
