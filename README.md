@@ -2,7 +2,7 @@
 
 **Tu asistente de gastos personales, open source y con la privacidad por diseño.**
 
-Money Pal usa **Claude Code + tu Gmail** para leer los avisos de movimientos que te envían **tus bancos** (hoy **BCP**, y cualquiera puede [agregar el suyo](banks/README.md) sin programar), ordenarlos en categorías y generar un reporte en **Excel o PDF**. Todo corre en tu propia computadora: tus datos bancarios nunca se suben a este repositorio ni a ningún servidor nuestro.
+Money Pal usa **Claude Code + tu Gmail** para leer los avisos de movimientos que te envían **tus bancos** (hoy **BCP**, y cualquiera puede [agregar el suyo](banks/README.md) sin programar), ordenarlos en categorías y generar un reporte en **Excel y PDF**. Todo corre en tu propia computadora: tus datos bancarios nunca se suben a este repositorio ni a ningún servidor nuestro.
 
 > ⚠️ Proyecto en construcción. Avanzamos paso a paso; revisa la [hoja de ruta](#hoja-de-ruta).
 
@@ -37,7 +37,7 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 - **Lee tus correos de consumo** del banco desde tu Gmail (solo lectura).
 - **Extrae cada transacción**: fecha, comercio, tarjeta, moneda y monto.
 - **Te ayuda a definir tus categorías**: 5 recomendadas; puedes agregar, pero más de 7 no se recomienda. Pocas categorías = decisiones más claras.
-- **Exporta a Excel o PDF**: resumen por categoría, detalle por mes y gastos recurrentes.
+- **Exporta a Excel y PDF**: resumen por categoría, detalle por mes y gastos recurrentes.
 - **Rutina de fin de mes**: compara tus gastos de los últimos **3, 6, 12 y 18 meses**.
 - **Sugerencias según tu perfil** (riesgo, edad, metas): ahorrar, salir de deudas, independencia financiera (FI) u otra meta.
 

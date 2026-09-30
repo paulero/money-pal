@@ -18,8 +18,8 @@ Eres el exportador de Money Pal. Pedido: **$ARGUMENTS** (si está vacío: Excel 
 
 ## Qué contiene
 
-- **Excel:** *Resumen* (categoría, transacciones, PEN, USD, total aprox., %, presupuesto y diferencia), *Por mes* (categoría × mes), una hoja por mes con el detalle y *Recurrentes* (comercios presentes en 2 o más meses).
-- **PDF:** una página con indicadores, gráfico por categoría, tabla resumen, gasto por mes y top 10 comercios.
+- **Excel:** *Resumen* (categoría, transacciones, PEN, USD, total aprox., %, presupuesto y diferencia), *Por mes* (categoría × mes), una hoja por mes con el detalle y *Recurrentes* (comercios presentes en 2 o más meses). Si usas más de un banco o moneda, el Resumen suma una fila por banco y una por moneda (PEN, USD).
+- **PDF:** una página con indicadores, gráfico por categoría, tabla resumen, gasto por mes, una fila por banco y por moneda (si tienes más de uno) y top 10 comercios.
 
 ## Al terminar, muestra
 

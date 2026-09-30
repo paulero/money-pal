@@ -126,6 +126,15 @@ def por_banco(filas, tc):
     return sorted(((nombre_banco(b), n, v) for b, (n, v) in tot.items()), key=lambda x: -x[2])
 
 
+def por_moneda(filas, tc):
+    """[(moneda, transacciones, total en su moneda, soles aprox.)] de mayor a menor."""
+    tot = defaultdict(lambda: [0, 0.0])
+    for t in filas:
+        tot[t["moneda"]][0] += 1
+        tot[t["moneda"]][1] += t["monto"]
+    return sorted(((m, n, v, v * (tc if m == "USD" else 1)) for m, (n, v) in tot.items()), key=lambda x: -x[3])
+
+
 def top_comercios(filas, tc, n=10):
     tot = defaultdict(lambda: [0, 0.0])
     for t in filas:
@@ -195,6 +204,15 @@ def exportar_excel(filas, cats, tc, meses_periodo, ruta, cierre=None):
             ws.cell(i, 1, nombre)
             ws.cell(i, 2, n)
             ws.cell(i, 3, round(v, 2)).number_format = soles
+    monedas = por_moneda(filas, tc)
+    if len(monedas) > 1:
+        fila_m = ws.max_row + 2
+        tabla(ws, fila_m, ["Moneda", "Transacciones", "Total", "Total aprox. PEN"])
+        for i, (m, n, v, aprox) in enumerate(monedas, fila_m + 1):
+            ws.cell(i, 1, m)
+            ws.cell(i, 2, n)
+            ws.cell(i, 3, round(v, 2)).number_format = dolares if m == "USD" else soles
+            ws.cell(i, 4, round(aprox, 2)).number_format = soles
 
     # Por mes (categoría × mes, en soles aprox.)
     meses = sorted({mes_clave(t["dt"]) for t in filas})
@@ -390,6 +408,15 @@ def exportar_pdf(filas, cats, tc, meses_periodo, ruta, cierre=None):
         h.append(Paragraph("Gasto por banco (aprox. PEN)", h2))
         t = Table([["Banco", "Trx", "Total"]] + [[b, n, s(v)] for b, n, v in bancos],
                   colWidths=[ancho * .6, ancho * .12, ancho * .28])
+        t.setStyle(estilo_tabla())
+        h.append(t)
+
+    monedas = por_moneda(filas, tc)
+    if len(monedas) > 1:
+        h.append(Paragraph("Gasto por moneda", h2))
+        t = Table([["Moneda", "Trx", "Total", "Aprox. PEN"]] +
+                  [[m, n, d(v) if m == "USD" else s(v), s(aprox)] for m, n, v, aprox in monedas],
+                  colWidths=[ancho * .4, ancho * .12, ancho * .24, ancho * .24])
         t.setStyle(estilo_tabla())
         h.append(t)
 
