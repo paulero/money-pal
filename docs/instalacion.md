@@ -25,6 +25,8 @@ Money Pal lee los correos que el BCP envía cada vez que usas tu tarjeta. Asegú
 
 Money Pal solo puede leer los consumos que tengan correo. Si activas las notificaciones hoy, tu historial empieza hoy.
 
+> ⚠️ **No borres estas notificaciones.** Gmail vacía la papelera cada 30 días y ese historial se pierde. Si te llenan la bandeja, crea un filtro en Gmail: buscar `from:notificaciones@notificacionesbcp.com.pe` → **Omitir Recibidos (archivar)** + **Aplicar etiqueta** `BCP`. Quedan guardados pero fuera de tu bandeja de entrada.
+
 ## Paso 2 · Instala Claude Code
 
 En la Terminal (macOS/Linux):

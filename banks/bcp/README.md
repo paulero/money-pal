@@ -10,6 +10,10 @@ from:notificaciones@notificacionesbcp.com.pe
 
 Filtrar por **remitente**, no por asunto: así se capturan tarjeta de crédito, débito, pagos y transferencias.
 
+**Incluir la papelera** (`includeTrash: true`): muchas personas borran estas notificaciones después de leerlas. Gmail vacía la papelera cada 30 días, así que lo que esté ahí se pierde pronto.
+
+Gmail filtra `after:` / `before:` por día, no por hora de Lima: después de extraer, filtra de nuevo por la fecha en hora de Lima.
+
 ## Tipos de correo
 
 | Asunto (contiene) | Tipo | ¿Se cuenta como gasto? |
@@ -19,6 +23,7 @@ Filtrar por **remitente**, no por asunto: así se capturan tarjeta de crédito, 
 | `CONSTANCIA DE PAGO DE SERVICIO` | `pago_servicio` | ✅ Sí (luz, teléfono, seguros…) |
 | `Constancia de Transferencia a Terceros` | `transferencia` | ❓ Se pregunta al usuario (puede ser alquiler, cuotas, pagos a personas… o no ser gasto) |
 | `Constancia de Transferencia Entre mis Cuentas` | — | ❌ No, es mover tu propio dinero |
+| `Constancia de Pago de Tarjeta de Crédito Propia` | — | ❌ No: pagar tu tarjeta no es un gasto nuevo; los consumos ya se contaron uno por uno |
 | Estados de cuenta (`estadodecuenta@…`), comprobantes (`comprobante-electronico@…`), publicidad (`bcpcomunica@…`) | — | ❌ No |
 
 ## Dónde está cada dato
@@ -38,7 +43,7 @@ El cuerpo completo agrega `Número de Tarjeta` (`************1234`), `Fecha y ho
 
 ### Pago de servicio
 
-El snippet **no** trae el monto; hay que abrir el correo. Campos: `Empresa`, `Fecha y hora`, `Monto total` (`S/ 98.50`), `Cuenta de origen` (p. ej. `Tarjeta de crédito **** 1234`), `Número de operación`.
+El snippet **no** trae el monto; hay que abrir el correo. Campos: `Empresa`, `Fecha y hora`, `Monto total` (`S/ 98.50` o en dólares, `$ 45.00`), `Cuenta de origen` (p. ej. `Tarjeta de crédito **** 1234`), `Número de operación`.
 
 ### Transferencia a terceros
 

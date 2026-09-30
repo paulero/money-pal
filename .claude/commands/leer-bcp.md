@@ -13,13 +13,13 @@ Sigue al pie de la letra las reglas de `banks/bcp/README.md`. Léelo primero.
 1. **Carga lo que ya existe.** Si `data/transacciones.json` existe, léelo. No vuelvas a procesar correos cuyo `id` ya esté guardado.
 2. **Busca en Gmail** con `search_threads`:
    - Query: `from:notificaciones@notificacionesbcp.com.pe after:AAAA/MM/DD` (según el periodo).
-   - `pageSize: 50` y sigue `nextPageToken` hasta terminar.
+   - `pageSize: 50`, **`includeTrash: true`**, y sigue `nextPageToken` hasta terminar.
    - Un hilo puede tener varios mensajes: procesa **cada mensaje**.
 3. **Clasifica cada mensaje por asunto** según la tabla del README del BCP. Ignora los que no son gasto.
 4. **Extrae los datos:**
    - `consumo`: usa solo el snippet. Abre el mensaje (`get_thread` con `messageFormat: PLAIN_TEXT`) solo si el snippet está cortado antes del comercio.
    - `pago_servicio` y `transferencia`: abre el mensaje con `PLAIN_TEXT`.
-5. **Quita duplicados** según el README.
+5. **Filtra por fecha en hora de Lima** (Gmail filtra por día en otra zona horaria) y **quita duplicados** según el README.
 6. **Guarda** en `data/transacciones.json` (crea la carpeta `data/` si no existe) con este formato:
 
 ```json
@@ -54,6 +54,7 @@ Sigue al pie de la letra las reglas de `banks/bcp/README.md`. Léelo primero.
 
 ## Al terminar, muestra
 
+0. Si encontraste correos en la papelera, avisa cuántos y recomienda dejar de borrarlos (ver `docs/instalacion.md`).
 1. Cuántos correos revisaste y cuántas transacciones nuevas guardaste, por tipo.
 2. Totales por moneda (PEN y USD) del periodo.
 3. Las **transferencias a terceros** encontradas, en una tabla (fecha, destinatario, monto), y pregunta cuáles cuentan como gasto. Las que el usuario diga que no, márcalas con `"excluida": true` (no las borres, así no se vuelve a preguntar por ellas).

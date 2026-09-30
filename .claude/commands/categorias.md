@@ -16,7 +16,7 @@ Menos categorías = decisiones más claras. **Idealmente 3 o 5, nunca más de 7.
 
 ## A · Primera vez (no existe `data/categorias.json`, o la opción es `nueva`)
 
-1. Analiza las transacciones no excluidas: agrupa por comercio y suma montos por moneda.
+1. Analiza las transacciones no excluidas: agrupa por comercio y suma montos por moneda. Para los porcentajes, convierte USD a PEN con un tipo de cambio aproximado y dilo (p. ej. "USD a 3.50").
 2. Propón **dos alternativas** en tablas, con el monto y porcentaje de cada categoría:
    - **Simple (3):** p. ej. *Esenciales* (supermercado, servicios, salud, transporte), *Estilo de vida* (restaurantes, compras, entretenimiento, viajes) y *Compromisos* (deudas, seguros, suscripciones).
    - **Detallada (5):** ajustada a sus gastos reales. Usa como punto de partida: Comida, Casa y servicios, Transporte, Estilo de vida, Suscripciones y compromisos.
