@@ -83,4 +83,4 @@ Si ves tu tabla, ¡estás listo! 🎉
 
 ---
 
-**Siguiente:** leer los correos del BCP y definir tus categorías (próximamente).
+**Siguiente:** en Claude Code escribe `/leer-bcp 3 meses` y luego `/categorias`.

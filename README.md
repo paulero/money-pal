@@ -12,6 +12,16 @@ Money Pal usa **Claude Code + tu Gmail** para leer las notificaciones de consumo
 
 👉 [Guía de instalación: Claude Code + Gmail + BCP](docs/instalacion.md)
 
+Luego, dentro de Claude Code en la carpeta `money-pal`:
+
+| Comando | Qué hace |
+|---|---|
+| `/leer-bcp 3 meses` | Lee tus correos del BCP y guarda las transacciones en `data/` (solo en tu computadora). |
+| `/categorias` | Te propone 3 o 5 categorías (máximo 7), las ajustas a tu gusto y categoriza todo. |
+| `/categorias revisar` | Categoriza los gastos nuevos y te pregunta solo por comercios desconocidos. |
+
+Mira el formato con [datos de ejemplo](examples/).
+
 ## ¿Qué hace?
 
 - **Lee tus correos de consumo** del banco desde tu Gmail (solo lectura).
@@ -34,10 +44,10 @@ Más detalles en [SECURITY.md](SECURITY.md).
 
 ```
 money-pal/
+├── .claude/        # Comandos de Claude Code y reglas de seguridad
 ├── banks/          # Un folder por banco o institución
 │   └── bcp/        # Reglas para leer correos del BCP
 ├── docs/           # Guías de instalación y uso
-├── prompts/        # Prompts para Claude Code (leer, categorizar, reportar)
 └── examples/       # Datos de ejemplo (ficticios)
 ```
 
@@ -45,7 +55,7 @@ money-pal/
 
 1. [x] Repositorio, licencia y reglas de privacidad
 2. [x] [Guía de instalación: Claude Code + Gmail + BCP](docs/instalacion.md)
-3. [ ] Lector de correos BCP + definición de categorías
+3. [x] Lector de correos BCP + definición de categorías (`/leer-bcp`, `/categorias`)
 4. [ ] Exportación a Excel y PDF
 5. [ ] Rutina de fin de mes (comparativo 3 / 6 / 12 / 18 meses)
 6. [ ] Guía para agregar otros bancos e instituciones
