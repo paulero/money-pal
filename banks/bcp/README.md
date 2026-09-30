@@ -22,8 +22,11 @@ Gmail filtra `after:` / `before:` por día, no por hora de Lima: después de ext
 | `Realizaste un consumo con tu Tarjeta de Débito BCP` | `consumo` · medio `debito` | ✅ Sí (incluye pagos Plin/BIM hechos con la tarjeta) |
 | `CONSTANCIA DE PAGO DE SERVICIO` | `pago_servicio` | ✅ Sí (luz, teléfono, seguros…) |
 | `Constancia de Transferencia a Terceros` | `transferencia` | ❓ Se pregunta al usuario (puede ser alquiler, cuotas, pagos a personas… o no ser gasto) |
+| `Constancia de Transferencia a Otros Bancos` | `transferencia` | ❓ Igual que la anterior. **Si `Enviado a` es el mismo titular, se excluye** (es su propia cuenta en otro banco). El monto a registrar es `Total cobrado` (incluye comisión) |
+| `Realizaste un retiro en un cajero` | `retiro` | ❓ Efectivo: se pregunta si cuenta como gasto (el destino del efectivo no se conoce) |
 | `Constancia de Transferencia Entre mis Cuentas` | — | ❌ No, es mover tu propio dinero |
 | `Constancia de Pago de Tarjeta de Crédito Propia` | — | ❌ No: pagar tu tarjeta no es un gasto nuevo; los consumos ya se contaron uno por uno |
+| Afiliaciones, actualización de datos, OTP, bienvenida a billetera digital | — | ❌ No |
 | Estados de cuenta (`estadodecuenta@…`), comprobantes (`comprobante-electronico@…`), publicidad (`bcpcomunica@…`) | — | ❌ No |
 
 ## Dónde está cada dato
@@ -47,9 +50,18 @@ El snippet **no** trae el monto; hay que abrir el correo. Campos: `Empresa`, `Fe
 
 ### Transferencia a terceros
 
-Snippet: `Realizaste una transferencia de S/ 350.00 desde tu Clasica`. El destinatario (`Enviado a`) y el `Número de operación` están en el cuerpo.
+Snippet: `Realizaste una transferencia de S/ 350.00 desde tu Clasica`. El destinatario (`Enviado a`), el `Mensaje` (guárdalo en `nota`, ayuda a categorizar: p. ej. "Mantenimiento") y el `Número de operación` están en el cuerpo.
+
+Transferencias a casas de cambio (p. ej. Kambista) suelen ser **cambio de moneda, no gasto**: propón excluirlas.
+
+### Retiro en cajero
+
+Snippet: `Realizaste un retiro de S/ 80.00 con tu Tarjeta de Débito BCP en un Cajero BCP`.
 
 ## Cuidados
+
+- **Abrir correos en la papelera:** usa `get_message` (por id de mensaje). `get_thread` falla con "permission" en hilos que están en la papelera.
+- **Resultados grandes:** una búsqueda de un mes (~50 hilos) suele superar el límite y Claude Code la guarda en un archivo. No la leas entera: procésala con `scripts/bcp_snippets.py <archivo>`.
 
 - **Duplicados:** un pago de servicio con tarjeta podría llegar también como consumo. Si hay dos registros con el mismo monto, misma empresa y menos de 10 minutos de diferencia, se guarda uno.
 - **Nombres de comercio:** el snippet y el cuerpo pueden diferir (`SAC` vs `S.A.C.`). Se usa el del snippet en mayúsculas, sin puntos finales.
