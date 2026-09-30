@@ -19,6 +19,10 @@ reports/
 # Excepción: los ejemplos ficticios sí se versionan
 !examples/**
 !.claude/settings.json
+# Excepción: reglas de bancos y sus pruebas (solo correos ficticios)
+!banks/*/banco.json
+!banks/*/pruebas/
+!banks/*/pruebas/*.json
 
 # --- Sistema ---
 .DS_Store

@@ -1,0 +1,80 @@
+{
+ "threads": [
+  {
+   "id": "hilo1",
+   "messages": [
+    {
+     "id": "prueba001",
+     "date": "2026-03-02T17:15:00Z",
+     "subject": "Realizaste un consumo con tu Tarjeta de Crédito BCP - Servicio de Notificaciones BCP",
+     "snippet": "Hola Ana, Realizaste un consumo de S/ 58.40 con tu Tarjeta de Crédito BCP en WONG SAN ISIDRO. Por tu seguridad, te enviamos los datos de tu operación.",
+     "sender": "notificaciones@notificacionesbcp.com.pe",
+     "labelIds": [
+      "INBOX"
+     ]
+    },
+    {
+     "id": "prueba002",
+     "date": "2026-03-03T13:02:00Z",
+     "subject": "Realizaste un consumo con tu Tarjeta de Crédito BCP - Servicio de Notificaciones BCP",
+     "snippet": "Hola Ana, Realizaste un consumo de $ 11.99 con tu Tarjeta de Crédito BCP en SPOTIFY. Por tu seguridad, te enviamos los datos de tu operación.",
+     "sender": "notificaciones@notificacionesbcp.com.pe",
+     "labelIds": [
+      "INBOX"
+     ]
+    },
+    {
+     "id": "prueba003",
+     "date": "2026-03-04T02:30:00Z",
+     "subject": "Realizaste un consumo con tu Tarjeta de Débito BCP - Servicio de Notificaciones BCP",
+     "snippet": "Hola Ana, Realizaste un consumo de S/ 1,250.00 con tu Tarjeta de Débito BCP en PLIN-JUAN PEREZ. Por tu seguridad, te enviamos los datos de tu operación.",
+     "sender": "notificaciones@notificacionesbcp.com.pe",
+     "labelIds": [
+      "INBOX"
+     ]
+    },
+    {
+     "id": "prueba004",
+     "date": "2026-03-05T20:00:00Z",
+     "subject": "Realizaste un consumo con tu Tarjeta de Crédito BCP - Servicio de Notificaciones BCP",
+     "snippet": "Hola Ana, Realizaste un consumo de S/ 42.00 con tu Tarjeta de Crédito BCP en UN COMERCIO CON UN NOMBRE MUY LARGO QUE CORTA",
+     "sender": "notificaciones@notificacionesbcp.com.pe",
+     "labelIds": [
+      "INBOX"
+     ]
+    },
+    {
+     "id": "prueba005",
+     "date": "2026-03-06T15:00:00Z",
+     "subject": "Realizaste un retiro en un cajero automático BCP - Servicio de Notificaciones BCP",
+     "snippet": "Hola Ana, Realizaste un retiro de S/ 200.00 con tu Tarjeta de Débito BCP en un Cajero BCP. Por tu seguridad",
+     "sender": "notificaciones@notificacionesbcp.com.pe",
+     "labelIds": [
+      "INBOX"
+     ]
+    },
+    {
+     "id": "prueba006",
+     "date": "2026-03-08T16:52:00Z",
+     "subject": "ENVIO AUTOMATICO - CONSTANCIA DE PAGO DE SERVICIO - BANCA MOVIL BCP",
+     "snippet": "Hola ANA, ¡Tu operación se realizó con éxito! Operación realizada: Pago de servicios Empresa: LUZ DEL SUR SAA",
+     "sender": "notificaciones@notificacionesbcp.com.pe",
+     "labelIds": [
+      "INBOX"
+     ]
+    },
+    {
+     "id": "prueba007",
+     "date": "2026-03-10T14:45:00Z",
+     "subject": "Constancia de Transferencia a Terceros BCP - Servicio de Notificaciones BCP",
+     "snippet": "Hola Ana, Realizaste una transferencia de S/ 350.00 desde tu Clasica.",
+     "sender": "notificaciones@notificacionesbcp.com.pe",
+     "labelIds": [
+      "INBOX"
+     ]
+    }
+   ]
+  }
+ ],
+ "nextPageToken": "x"
+}

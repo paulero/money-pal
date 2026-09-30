@@ -1,0 +1,69 @@
+{
+ "threads": [
+  {
+   "id": "hilo2",
+   "messages": [
+    {
+     "id": "prueba001",
+     "date": "2026-03-02T17:15:00Z",
+     "subject": "Realizaste un consumo con tu Tarjeta de Crédito BCP - Servicio de Notificaciones BCP",
+     "snippet": "Hola Ana, Realizaste un consumo de S/ 58.40 con tu Tarjeta de Crédito BCP en WONG SAN ISIDRO. Por tu seguridad, te enviamos los datos de tu operación.",
+     "sender": "notificaciones@notificacionesbcp.com.pe",
+     "labelIds": [
+      "INBOX"
+     ]
+    },
+    {
+     "id": "prueba008",
+     "date": "2026-03-12T21:11:00Z",
+     "subject": "Constancia de Transferencia a Otros Bancos - Servicio de Notificaciones BCP",
+     "snippet": "Hola Ana, Realizaste una transferencia de $ 100.00 desde tu Clasica.",
+     "sender": "notificaciones@notificacionesbcp.com.pe",
+     "labelIds": [
+      "INBOX"
+     ]
+    },
+    {
+     "id": "prueba009",
+     "date": "2026-03-13T12:00:00Z",
+     "subject": "Constancia de Transferencia Entre mis Cuentas - Servicio de Notificaciones BCP",
+     "snippet": "Hola Ana, Realizaste una transferencia de S/ 500.00 desde tu Clasica.",
+     "sender": "notificaciones@notificacionesbcp.com.pe",
+     "labelIds": [
+      "INBOX"
+     ]
+    },
+    {
+     "id": "prueba010",
+     "date": "2026-03-14T12:00:00Z",
+     "subject": "Constancia de Pago de Tarjeta de Crédito de Otros Bancos - Servicio de Notificaciones BCP",
+     "snippet": "Hola Ana, Realizaste un pago de S/ 900.00.",
+     "sender": "notificaciones@notificacionesbcp.com.pe",
+     "labelIds": [
+      "INBOX"
+     ]
+    },
+    {
+     "id": "prueba011",
+     "date": "2026-03-15T12:00:00Z",
+     "subject": "Un asunto que el BCP nunca había enviado - Servicio de Notificaciones BCP",
+     "snippet": "Texto nuevo.",
+     "sender": "notificaciones@notificacionesbcp.com.pe",
+     "labelIds": [
+      "INBOX"
+     ]
+    },
+    {
+     "id": "prueba012",
+     "date": "2026-03-16T12:00:00Z",
+     "subject": "Realizaste un consumo con tu Tarjeta de Crédito BCP - Servicio de Notificaciones BCP",
+     "snippet": "Hola Ana, Realizaste un consumo de S/ 10.00 con tu Tarjeta de Crédito BCP en NO DEBE APARECER. Por tu seguridad, te enviamos los datos de tu operación.",
+     "sender": "alguien@otro-dominio.com",
+     "labelIds": [
+      "INBOX"
+     ]
+    }
+   ]
+  }
+ ]
+}

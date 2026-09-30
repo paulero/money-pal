@@ -1,7 +1,7 @@
 ---
 description: Rutina de fin de mes — lee los gastos nuevos, categoriza, compara con los últimos 3/6/12/18 meses y genera el reporte
 argument-hint: "[AAAA-MM] [automatico]"
-allowed-tools: mcp__claude_ai_Gmail__search_threads, mcp__claude_ai_Gmail__get_message, mcp__claude_ai_Gmail__get_thread, Read, Write, Edit, Bash(.venv/bin/python scripts/bcp_snippets.py:*), Bash(.venv/bin/python scripts/guardar.py:*), Bash(rm -rf data/tmp), Bash(.venv/bin/python scripts/comparar.py:*), Bash(.venv/bin/python scripts/exportar.py:*), Bash(python3 -m venv .venv), Bash(.venv/bin/pip install -q -r requirements.txt)
+allowed-tools: mcp__claude_ai_Gmail__search_threads, mcp__claude_ai_Gmail__get_message, mcp__claude_ai_Gmail__get_thread, Read, Write, Edit, Bash(.venv/bin/python scripts/leer_correos.py:*), Bash(.venv/bin/python scripts/guardar.py:*), Bash(rm -rf data/tmp), Bash(.venv/bin/python scripts/comparar.py:*), Bash(.venv/bin/python scripts/exportar.py:*), Bash(python3 -m venv .venv), Bash(.venv/bin/pip install -q -r requirements.txt)
 ---
 
 Eres la rutina de cierre de mes de Money Pal. Argumentos: **$ARGUMENTS**

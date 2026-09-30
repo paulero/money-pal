@@ -1,0 +1,124 @@
+{
+  "id": "bcp",
+  "nombre": "BCP · Banco de Crédito del Perú",
+  "pais": "PE",
+  "estado": "verificado",
+  "zona_horaria": "-05:00",
+  "remitentes": [
+    "notificaciones@notificacionesbcp.com.pe"
+  ],
+  "limpiar_asunto": [
+    " - Servicio de Notificaciones BCP",
+    " - BANCA MOVIL BCP"
+  ],
+  "monedas": {
+    "S/": "PEN",
+    "$": "USD"
+  },
+  "medios": {
+    "Crédito": "credito",
+    "Débito": "debito"
+  },
+  "tipos": [
+    {
+      "tipo": "consumo",
+      "asunto_contiene": [
+        "Realizaste un consumo"
+      ],
+      "fuente": "snippet",
+      "patron": "consumo de (?P<moneda>S/|\\$) (?P<monto>[\\d,]+\\.\\d{2}) con tu Tarjeta de (?P<medio>Crédito|Débito) BCP en (?P<comercio>.+?)\\. Por tu seguridad"
+    },
+    {
+      "tipo": "retiro",
+      "asunto_contiene": [
+        "Realizaste un retiro"
+      ],
+      "fuente": "snippet",
+      "patron": "retiro de (?P<moneda>S/|\\$) (?P<monto>[\\d,]+\\.\\d{2})",
+      "fijos": {
+        "medio": "debito",
+        "comercio": "RETIRO CAJERO"
+      }
+    },
+    {
+      "tipo": "pago_servicio",
+      "asunto_contiene": [
+        "CONSTANCIA DE PAGO DE SERVICIO"
+      ],
+      "fuente": "cuerpo",
+      "campos": {
+        "comercio": "Empresa",
+        "fecha": "Fecha y hora",
+        "monto": "Monto total",
+        "tarjeta": "Cuenta de origen (últimos 4 dígitos)",
+        "medio": "Cuenta de origen: \"Tarjeta de crédito\" → credito; una cuenta → cuenta"
+      }
+    },
+    {
+      "tipo": "transferencia",
+      "asunto_contiene": [
+        "Transferencia a Terceros",
+        "Transferencia a Otros Bancos",
+        "Transferencia Interbancaria"
+      ],
+      "fuente": "cuerpo",
+      "campos": {
+        "comercio": "Enviado a",
+        "fecha": "Fecha y hora",
+        "monto": "Total cobrado (si hay comisión) o Monto transferido",
+        "nota": "Mensaje"
+      },
+      "fijos": {
+        "medio": "cuenta"
+      },
+      "excluir_si": [
+        "Enviado a es el mismo titular (su propia cuenta en otro banco)",
+        "El destinatario es una casa de cambio (cambio de moneda, no gasto)",
+        "El destinatario es un fondo o el mensaje dice inversión (ahorro, no gasto)"
+      ]
+    }
+  ],
+  "ignorar": [
+    {
+      "asunto_contiene": "Transferencia Entre mis Cuentas",
+      "motivo": "mover dinero entre tus propias cuentas"
+    },
+    {
+      "asunto_contiene": "Pago de Tarjeta de Crédito Propia",
+      "motivo": "pagar tu tarjeta; los consumos ya se contaron uno por uno"
+    },
+    {
+      "asunto_contiene": "Pago de Tarjeta de Crédito de Otros Bancos",
+      "motivo": "pagar una tarjeta de otro banco; sus consumos no pasan por el BCP",
+      "avisar": true
+    },
+    {
+      "asunto_contiene": "billetera digital",
+      "motivo": "aviso de afiliación"
+    },
+    {
+      "asunto_contiene": "OTP",
+      "motivo": "código de verificación"
+    },
+    {
+      "asunto_contiene": "Afiliación",
+      "motivo": "aviso de afiliación"
+    },
+    {
+      "asunto_contiene": "Actualización de Datos",
+      "motivo": "aviso administrativo"
+    },
+    {
+      "asunto_contiene": "Estado de Cuenta",
+      "motivo": "estado de cuenta mensual (los consumos ya llegan uno por uno)"
+    },
+    {
+      "asunto_contiene": "Configuración",
+      "motivo": "cambio de configuración de tarjeta"
+    },
+    {
+      "asunto_contiene": "favorit",
+      "motivo": "aviso de cuenta favorita"
+    }
+  ]
+}

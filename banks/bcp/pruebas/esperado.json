@@ -1,0 +1,89 @@
+{
+ "trx": [
+  {
+   "id": "prueba001",
+   "fecha": "2026-03-02T12:15-05:00",
+   "banco": "bcp",
+   "tipo": "consumo",
+   "medio": "credito",
+   "tarjeta": null,
+   "moneda": "PEN",
+   "monto": 58.4,
+   "comercio": "WONG SAN ISIDRO",
+   "categoria": null
+  },
+  {
+   "id": "prueba002",
+   "fecha": "2026-03-03T08:02-05:00",
+   "banco": "bcp",
+   "tipo": "consumo",
+   "medio": "credito",
+   "tarjeta": null,
+   "moneda": "USD",
+   "monto": 11.99,
+   "comercio": "SPOTIFY",
+   "categoria": null
+  },
+  {
+   "id": "prueba003",
+   "fecha": "2026-03-03T21:30-05:00",
+   "banco": "bcp",
+   "tipo": "consumo",
+   "medio": "debito",
+   "tarjeta": null,
+   "moneda": "PEN",
+   "monto": 1250.0,
+   "comercio": "PLIN-JUAN PEREZ",
+   "categoria": null
+  },
+  {
+   "id": "prueba005",
+   "fecha": "2026-03-06T10:00-05:00",
+   "banco": "bcp",
+   "tipo": "retiro",
+   "medio": "debito",
+   "tarjeta": null,
+   "moneda": "PEN",
+   "monto": 200.0,
+   "comercio": "RETIRO CAJERO",
+   "categoria": null
+  }
+ ],
+ "abrir": [
+  {
+   "id": "prueba004",
+   "tipo": "consumo",
+   "fecha": "2026-03-05T15:00-05:00",
+   "motivo": "snippet incompleto"
+  },
+  {
+   "id": "prueba006",
+   "tipo": "pago_servicio",
+   "fecha": "2026-03-08T11:52-05:00",
+   "motivo": "datos en el cuerpo"
+  },
+  {
+   "id": "prueba007",
+   "tipo": "transferencia",
+   "fecha": "2026-03-10T09:45-05:00",
+   "motivo": "datos en el cuerpo"
+  },
+  {
+   "id": "prueba008",
+   "tipo": "transferencia",
+   "fecha": "2026-03-12T16:11-05:00",
+   "motivo": "datos en el cuerpo"
+  }
+ ],
+ "ignorados": {
+  "Constancia de Transferencia Entre mis Cuentas": 1,
+  "Constancia de Pago de Tarjeta de Crédito de Otros Bancos": 1,
+  "Un asunto que el BCP nunca había enviado": 1
+ },
+ "avisos": [
+  "2026-03-14 · Constancia de Pago de Tarjeta de Crédito de Otros Bancos: pagar una tarjeta de otro banco; sus consumos no pasan por el BCP"
+ ],
+ "desconocidos": {
+  "Un asunto que el BCP nunca había enviado": 1
+ }
+}

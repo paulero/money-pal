@@ -54,7 +54,7 @@ Más detalles en [SECURITY.md](SECURITY.md).
 ```
 money-pal/
 ├── .claude/        # Comandos de Claude Code y reglas de seguridad
-├── banks/          # Un folder por banco o institución
+├── banks/          # Un folder por banco: reglas (banco.json) y pruebas
 │   └── bcp/        # Reglas para leer correos del BCP
 ├── docs/           # Guías de instalación y uso
 ├── scripts/        # Exportación a Excel/PDF, comparativo mensual y rutina automática
@@ -73,7 +73,7 @@ money-pal/
 
 ## Contribuir
 
-Money Pal es open source para que cualquiera pueda **agregar su banco o institución**. Crea una carpeta en `banks/<tu-banco>/` con las reglas para leer sus correos y abre un Pull Request. Nunca incluyas datos reales en tus contribuciones.
+Money Pal es open source para que cualquiera pueda **agregar su banco o institución**: es escribir un `banco.json` y unas pruebas con correos ficticios, sin programar. Mira [banks/README.md](banks/README.md). Nunca incluyas datos reales en tus contribuciones.
 
 ## Aviso
 

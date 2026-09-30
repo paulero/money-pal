@@ -1,6 +1,6 @@
 """Money Pal · Agrega transacciones nuevas a data/transacciones.json.
 
-Recibe uno o más archivos JSON (una lista de transacciones, o la salida de bcp_snippets.py con "trx"),
+Recibe uno o más archivos JSON (una lista de transacciones, o la salida de leer_correos.py con "trx"),
 filtra por el rango leído, quita duplicados, aplica tus reglas de data/categorias.json y amplía el
 periodo cubierto. Así Claude nunca tiene que reescribir el archivo completo.
 
@@ -54,6 +54,7 @@ def main():
     p.add_argument("--desde", required=True, help="AAAA-MM-DD, primer día leído (hora de Lima)")
     p.add_argument("--hasta", required=True, help="AAAA-MM-DD, último día leído (hora de Lima)")
     p.add_argument("--automatico", action="store_true")
+    p.add_argument("--banco", default="bcp", help="Banco de las transacciones que no lo indiquen")
     p.add_argument("--datos", default=str(RAIZ / "data"))
     a = p.parse_args()
 
@@ -73,6 +74,7 @@ def main():
             en_rango += 1
             if t["id"] in existentes:
                 continue
+            t.setdefault("banco", a.banco)
             t.setdefault("categoria", None)
             if not t.get("excluida") and not t["categoria"]:
                 t["categoria"] = categorizar(t, cats)

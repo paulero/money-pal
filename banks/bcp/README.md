@@ -1,6 +1,12 @@
 # BCP · Banco de Crédito del Perú
 
-Reglas para convertir los correos de notificación del BCP en transacciones. El comando [`/leer-bcp`](../../.claude/commands/leer-bcp.md) las aplica.
+Cómo se convierten los correos de notificación del BCP en transacciones.
+
+- **[`banco.json`](banco.json)** es la fuente de verdad: remitentes, tipos de correo, patrones y lo que se ignora. El parser [`scripts/leer_correos.py`](../../scripts/leer_correos.py) y el comando [`/leer-bcp`](../../.claude/commands/leer-bcp.md) lo usan.
+- **Este README** explica esas reglas para personas.
+- **[`pruebas/`](pruebas/)** tiene correos ficticios y el resultado esperado. Verifícalo con `.venv/bin/python scripts/probar_bancos.py bcp`.
+
+Estado: ✅ verificado con 18 meses de correos reales (abril 2025 – septiembre 2026).
 
 ## Búsqueda en Gmail
 
@@ -62,7 +68,8 @@ Snippet: `Realizaste un retiro de S/ 80.00 con tu Tarjeta de Débito BCP en un C
 ## Cuidados
 
 - **Abrir correos en la papelera:** usa `get_message` (por id de mensaje). `get_thread` falla con "permission" en hilos que están en la papelera.
-- **Resultados grandes:** una búsqueda de un mes (~50 hilos) suele superar el límite y Claude Code la guarda en un archivo. No la leas entera: procésala con `scripts/bcp_snippets.py <archivo>`.
+- **Resultados grandes:** una búsqueda de un mes (~50 hilos) suele superar el límite y Claude Code la guarda en un archivo. No la leas entera: procésala con `scripts/leer_correos.py --banco bcp <archivo>`.
+- **Si cambias `banco.json`:** agrega un correo ficticio del caso a `pruebas/busqueda-*.json`, corre `probar_bancos.py bcp --actualizar` y revisa el nuevo `esperado.json` antes de subirlo.
 
 - **Duplicados:** un pago de servicio con tarjeta podría llegar también como consumo. Si hay dos registros con el mismo monto, misma empresa y menos de 10 minutos de diferencia, se guarda uno.
 - **Nombres de comercio:** el snippet y el cuerpo pueden diferir (`SAC` vs `S.A.C.`). Se usa el del snippet en mayúsculas, sin puntos finales.

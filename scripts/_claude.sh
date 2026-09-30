@@ -15,7 +15,7 @@ fi
 HERRAMIENTAS=(
   "mcp__claude_ai_Gmail__search_threads" "mcp__claude_ai_Gmail__get_message" "mcp__claude_ai_Gmail__get_thread"
   "Read" "Write" "Edit"
-  "Bash(.venv/bin/python scripts/bcp_snippets.py:*)" "Bash(.venv/bin/python scripts/guardar.py:*)"
+  "Bash(.venv/bin/python scripts/leer_correos.py:*)" "Bash(.venv/bin/python scripts/guardar.py:*)"
   "Bash(.venv/bin/python scripts/comparar.py:*)" "Bash(.venv/bin/python scripts/exportar.py:*)"
   "Bash(rm -rf data/tmp)"
 )
