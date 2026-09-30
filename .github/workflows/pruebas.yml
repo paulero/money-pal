@@ -14,6 +14,21 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Contribuciones externas solo en banks/ y docs/
+        # Los comandos y scripts corren con acceso al Gmail de cada persona: un cambio ahí desde un fork
+        # lo revisa el mantenedor a mano (y lo acepta como administrador), nunca pasa solo con las pruebas.
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git fetch -q --depth=1 origin "$BASE"
+          sensibles=$(git diff --name-only "$BASE" HEAD | grep -Ev '^(banks/[a-z0-9-]+/|banks/README\.md$|docs/)' || true)
+          if [ -n "$sensibles" ]; then
+            echo "::error::Este Pull Request cambia archivos que solo el mantenedor puede aceptar:"
+            echo "$sensibles"
+            exit 1
+          fi
+
       - name: Nada de datos reales en el repositorio
         run: |
           if git ls-files | grep -E '^(data|output)/|\.(xlsx|xls|csv|pdf)$'; then

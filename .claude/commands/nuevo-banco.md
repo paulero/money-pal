@@ -52,7 +52,7 @@ Usa `banks/bcp/` como modelo y `banks/README.md` como referencia del formato. Tr
 
 11. **Úsalo tú primero.** Explica que ya puede leer este banco con `/leer-correos <id> 3 meses` o importar su historial en la Terminal con `scripts/importar-historial.sh 18 <id>`.
 
-12. **Contribuye (con permiso).** Muestra `git status` y un resumen de los archivos nuevos. Confirma que **solo** hay archivos en `banks/<id>/` y `banks/README.md`. Pregunta si quiere proponerlo al proyecto; si dice que sí:
+12. **Contribuye (con permiso).** Muestra `git status` y un resumen de los archivos nuevos. Confirma que **solo** hay cambios en `banks/<id>/`, `banks/README.md` y `docs/instalacion.md` (las pruebas del repositorio rechazan cualquier otro archivo en contribuciones externas). Pregunta si quiere proponerlo al proyecto; si dice que sí:
     - Crea la rama `banco-<id>` y haz commit.
     - Si puede escribir en el repositorio (`gh repo view --json viewerPermission`), haz push de la rama; si no, `gh repo fork --remote` y push a su fork.
     - Abre el Pull Request con `gh pr create`: banco, tipos cubiertos, meses revisados y que `revisar_privacidad.py` y `probar_bancos.py` pasaron.

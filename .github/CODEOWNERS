@@ -1,0 +1,11 @@
+# Money Pal · Quién revisa cada parte antes de aceptar un cambio.
+# Los comandos de .claude/ y los scripts corren con acceso a tu Gmail en la computadora de cada persona:
+# todo cambio ahí necesita la revisión del mantenedor.
+*                     @paulero
+/.claude/             @paulero
+/scripts/             @paulero
+/.github/             @paulero
+/banks/*/banco.json   @paulero
+/requirements.txt     @paulero
+/.gitignore           @paulero
+/SECURITY.md          @paulero
