@@ -11,6 +11,8 @@ Uso:
 --automatico: las transferencias y retiros nuevos quedan con "pendiente": true para revisarlos luego.
 Si no llega ninguna transacción en el rango (ni nueva ni ya guardada), imprime SIN_CORREOS y no amplía
 el periodo: significa que antes de esa fecha no hay historial en Gmail.
+
+  .venv/bin/python scripts/guardar.py --periodos    # solo muestra el periodo guardado de cada banco
 """
 
 import argparse
@@ -59,13 +61,23 @@ def periodo_comun(periodos):
 def main():
     p = argparse.ArgumentParser(description="Agrega transacciones nuevas a data/transacciones.json.")
     p.add_argument("archivos", nargs="*")
-    p.add_argument("--desde", required=True, help="AAAA-MM-DD, primer día leído (hora local del banco)")
-    p.add_argument("--hasta", required=True, help="AAAA-MM-DD, último día leído (hora local del banco)")
+    p.add_argument("--periodos", action="store_true", help="Solo muestra el periodo guardado de cada banco y sale")
+    p.add_argument("--desde", help="AAAA-MM-DD, primer día leído (hora local del banco)")
+    p.add_argument("--hasta", help="AAAA-MM-DD, último día leído (hora local del banco)")
     p.add_argument("--automatico", action="store_true")
-    p.add_argument("--banco", required=True, help="Banco leído (carpeta en banks/); su periodo es el que se amplía")
+    p.add_argument("--banco", help="Banco leído (carpeta en banks/); su periodo es el que se amplía")
     p.add_argument("--datos", default=str(RAIZ / "data"))
     a = p.parse_args()
 
+    if not Path(a.datos).resolve().is_relative_to(RAIZ / "data"):
+        raise SystemExit(f"--datos debe estar dentro de data/ (recibido: {a.datos})")
+    if a.periodos:
+        ruta = Path(a.datos) / "transacciones.json"
+        d = json.loads(ruta.read_text(encoding="utf-8")) if ruta.exists() else {}
+        print(json.dumps(d.get("periodos") or {}, ensure_ascii=False))
+        return
+    if not (a.desde and a.hasta and a.banco):
+        p.error("--banco, --desde y --hasta son obligatorios")
     desde, hasta = date.fromisoformat(a.desde), date.fromisoformat(a.hasta)
     ruta_trx, ruta_cat = Path(a.datos) / "transacciones.json", Path(a.datos) / "categorias.json"
     datos = json.loads(ruta_trx.read_text(encoding="utf-8")) if ruta_trx.exists() else \

@@ -1,7 +1,7 @@
 ---
 description: Agrega un banco nuevo a Money Pal a partir de tus propios correos (sin programar) y prepara la contribución
 argument-hint: "<banco, p. ej. interbank>"
-allowed-tools: mcp__claude_ai_Gmail__search_threads, mcp__claude_ai_Gmail__get_message, Read, Write, Edit, Bash(.venv/bin/python scripts/explorar_correos.py:*), Bash(.venv/bin/python scripts/leer_correos.py:*), Bash(.venv/bin/python scripts/probar_bancos.py:*), Bash(.venv/bin/python scripts/revisar_privacidad.py:*), Bash(rm -rf data/tmp/nuevo-*)
+allowed-tools: mcp__claude_ai_Gmail__search_threads, mcp__claude_ai_Gmail__get_message, Read, Edit(./data/tmp/**), Edit(./banks/**), Edit(./docs/instalacion.md), Bash(.venv/bin/python scripts/explorar_correos.py:*), Bash(.venv/bin/python scripts/leer_correos.py:*), Bash(.venv/bin/python scripts/probar_bancos.py:*), Bash(.venv/bin/python scripts/revisar_privacidad.py:*), Bash(rm -rf data/tmp/nuevo-*)
 ---
 
 Vas a agregar el banco **$ARGUMENTS** a Money Pal usando los correos de la persona que tiene cuenta ahí. El resultado son **reglas** (`banco.json`) y **pruebas con correos inventados**: nunca datos reales.

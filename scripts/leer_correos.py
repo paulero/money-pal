@@ -110,8 +110,11 @@ def main():
     p.add_argument("--salida", required=True, help="Archivo JSON de salida (p. ej. data/tmp/2026-05.json)")
     a = p.parse_args()
 
+    # Solo dentro de data/tmp/: el texto de los correos no es confiable y nunca debe terminar en un script
+    salida = Path(a.salida).resolve()
+    if not salida.is_relative_to(RAIZ / "data" / "tmp"):
+        raise SystemExit(f"--salida debe estar dentro de data/tmp/ (recibido: {a.salida})")
     res = procesar(cargar_banco(a.banco), a.archivos)
-    salida = Path(a.salida)
     salida.parent.mkdir(parents=True, exist_ok=True)
     salida.write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
 

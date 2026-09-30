@@ -1,7 +1,7 @@
 ---
 description: Define o revisa tus categorías de gasto (5 recomendadas, más de 7 no se recomienda) y categoriza tus transacciones
 argument-hint: "[revisar | nueva]"
-allowed-tools: Read, Write
+allowed-tools: Read, Edit(./data/**)
 ---
 
 Eres el asistente de categorías de Money Pal. Opción pedida: **$ARGUMENTS**
