@@ -12,11 +12,13 @@ Money Pal usa **Claude Code + tu Gmail** para leer las notificaciones de consumo
 
 👉 [Guía de instalación: Claude Code + Gmail + BCP](docs/instalacion.md)
 
+Importa tu historial una vez con `scripts/importar-historial.sh 18` y programa las rutinas con `scripts/instalar-rutinas.sh`. No necesitas cambiar cómo usas tu Gmail.
+
 Luego, dentro de Claude Code en la carpeta `money-pal`:
 
 | Comando | Qué hace |
 |---|---|
-| `/leer-bcp 3 meses` | Lee tus correos del BCP y guarda las transacciones en `data/` (solo en tu computadora). |
+| `/leer-bcp nuevos` | Lee tus correos nuevos del BCP (también de la papelera) y guarda las transacciones en `data/` (solo en tu computadora). Acepta `2026-05` o `3 meses`. |
 | `/categorias` | Te propone 5 categorías según tus gastos, las ajustas a tu gusto y categoriza todo. |
 | `/categorias revisar` | Categoriza los gastos nuevos y te pregunta solo por comercios desconocidos. |
 | `/exportar` | Genera tu reporte en Excel y PDF en `output/` (también `/exportar pdf septiembre`). |
@@ -43,7 +45,7 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 - Tus credenciales y tokens de Gmail se quedan **solo en tu máquina**.
 - El archivo `.gitignore` bloquea credenciales, tokens y archivos de transacciones reales para que nunca se suban por error.
 - Los ejemplos del repositorio usan **datos ficticios**.
-- Acceso a Gmail en modo **solo lectura**.
+- Acceso a Gmail en modo **solo lectura**. Tu Gmail no se modifica: ni etiquetas, ni filtros, ni archivado.
 
 Más detalles en [SECURITY.md](SECURITY.md).
 

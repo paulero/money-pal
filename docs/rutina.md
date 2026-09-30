@@ -26,36 +26,27 @@ Sin Claude, solo el comparativo:
 
 ## Automática (macOS)
 
-El script [`scripts/cierre-de-mes.sh`](../scripts/cierre-de-mes.sh) corre la rutina **sin hacer preguntas**: lo dudoso queda como pendiente para que lo revises con `/categorias revisar`. Para programarlo el día 1 de cada mes a las 9:00 con `launchd`:
+Un solo comando programa dos rutinas con `launchd`:
 
 ```bash
-cd money-pal
-RUTA="$(pwd)"
-cat > ~/Library/LaunchAgents/com.moneypal.cierre.plist <<PLIST
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>Label</key><string>com.moneypal.cierre</string>
-  <key>ProgramArguments</key>
-  <array><string>/bin/bash</string><string>$RUTA/scripts/cierre-de-mes.sh</string></array>
-  <key>StartCalendarInterval</key>
-  <dict><key>Day</key><integer>1</integer><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>
-  <key>StandardErrorPath</key><string>$RUTA/output/logs/launchd.err</string>
-</dict>
-</plist>
-PLIST
-mkdir -p output/logs
-launchctl load ~/Library/LaunchAgents/com.moneypal.cierre.plist
+scripts/instalar-rutinas.sh
 ```
 
-- Si tu Mac está dormida a esa hora, la rutina corre al despertar. Si está apagada, se salta ese mes: córrela a mano.
-- Para probarla ya: `launchctl start com.moneypal.cierre` (o `scripts/cierre-de-mes.sh`).
-- Para desactivarla: `launchctl unload ~/Library/LaunchAgents/com.moneypal.cierre.plist`.
-- El registro de cada ejecución queda en `output/logs/`.
+| Rutina | Cuándo | Qué hace |
+|---|---|---|
+| Lectura semanal | Lunes 9:00 | `/leer-bcp nuevos` — guarda los correos nuevos del BCP. |
+| Cierre de mes | Día 1, 10:00 | `/cierre-de-mes` — compara el mes con tus promedios y genera el reporte. |
+
+**¿Por qué semanal?** Money Pal guarda cada transacción en `data/`, así que después ya no importa si borras el correo. Pero Gmail vacía la papelera a los 30 días: si alguien borra sus notificaciones apenas llegan, una lectura solo mensual podría llegar tarde. Leyendo cada semana, nada se pierde **y nadie tiene que cambiar cómo usa su Gmail**.
+
+- Las rutinas corren sin hacer preguntas: lo dudoso queda como pendiente para `/categorias revisar`.
+- Si tu Mac está dormida a esa hora, corren al despertar. Si está apagada, se saltan: `scripts/sincronizar.sh` o `/cierre-de-mes` a mano lo recuperan.
+- Probarlas ya: `scripts/sincronizar.sh` · `scripts/cierre-de-mes.sh`.
+- Quitarlas: `scripts/instalar-rutinas.sh --quitar`.
+- Cada ejecución deja su registro en `output/logs/`.
 
 ## Cómo leer los promedios
 
 - Los promedios usan solo **meses completos** anteriores al mes que cierras.
-- Si todavía no tienes 6, 12 o 18 meses de historia, el reporte lo dice y promedia los meses que sí hay. Para tener historia desde el inicio, corre `/leer-bcp 18 meses` una vez (si tus correos siguen en Gmail).
+- Si todavía no tienes 6, 12 o 18 meses de historia, el reporte lo dice y promedia los meses que sí hay. Para tener historia desde el primer día, importa tu historial una vez (ver [instalación](instalacion.md#paso-6--importa-tu-historial)).
 - Los montos en dólares se convierten a soles con un tipo de cambio aproximado (`tipo_cambio_usd` en `data/categorias.json`, o S/ 3.50).

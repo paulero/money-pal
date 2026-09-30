@@ -26,7 +26,7 @@ Money Pal lee los correos que el BCP envía cada vez que usas tu tarjeta. Asegú
 
 Money Pal solo puede leer los consumos que tengan correo. Si activas las notificaciones hoy, tu historial empieza hoy.
 
-> ⚠️ **No borres estas notificaciones.** Gmail vacía la papelera cada 30 días y ese historial se pierde. Si te llenan la bandeja, crea un filtro en Gmail: buscar `from:notificaciones@notificacionesbcp.com.pe` → **Omitir Recibidos (archivar)** + **Aplicar etiqueta** `BCP`. Quedan guardados pero fuera de tu bandeja de entrada.
+> 💡 No necesitas cambiar cómo usas tu Gmail. Si sueles borrar estas notificaciones, no pasa nada: Money Pal también lee la papelera, guarda cada transacción en tu computadora y, con la [lectura semanal](rutina.md), las lee antes de que Gmail vacíe la papelera (30 días).
 
 ## Paso 2 · Instala Claude Code
 
@@ -86,4 +86,19 @@ Si ves tu tabla, ¡estás listo! 🎉
 
 ---
 
-**Siguiente:** en Claude Code escribe `/leer-bcp 3 meses`, luego `/categorias` y finalmente `/exportar`.
+## Paso 6 · Importa tu historial
+
+Una sola vez, en la Terminal dentro de `money-pal`:
+
+```bash
+scripts/importar-historial.sh 18
+```
+
+Lee Gmail (incluida la papelera) **mes por mes hacia atrás**, hasta 18 meses o hasta donde encuentre correos del BCP. Cada mes corre en una sesión nueva de Claude, así funciona igual con 50 o con 1,500 correos. Toma unos minutos por mes; puedes dejarlo corriendo.
+
+¿Prefieres empezar rápido? En Claude Code: `/leer-bcp 3 meses`.
+
+## Paso 7 · Categorías, reporte y rutinas
+
+1. En Claude Code: `/categorias` (define tus categorías) y `/exportar` (tu primer reporte).
+2. En la Terminal: `scripts/instalar-rutinas.sh` para la lectura semanal y el cierre de mes automático ([detalles](rutina.md)).
