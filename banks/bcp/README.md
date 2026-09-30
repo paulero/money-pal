@@ -26,6 +26,7 @@ Gmail filtra `after:` / `before:` por día, no por hora de Lima: después de ext
 | `Realizaste un retiro en un cajero` | `retiro` | ❓ Efectivo: se pregunta si cuenta como gasto (el destino del efectivo no se conoce) |
 | `Constancia de Transferencia Entre mis Cuentas` | — | ❌ No, es mover tu propio dinero |
 | `Constancia de Pago de Tarjeta de Crédito Propia` | — | ❌ No: pagar tu tarjeta no es un gasto nuevo; los consumos ya se contaron uno por uno |
+| `Constancia de Pago de Tarjeta de Crédito de Otros Bancos` | — | ❌ No se cuenta, pero **avisa**: los consumos de esa tarjeta no pasan por el BCP. Para verlos hay que agregar ese banco (`banks/<banco>/`) |
 | Afiliaciones, actualización de datos, OTP, bienvenida a billetera digital | — | ❌ No |
 | Estados de cuenta (`estadodecuenta@…`), comprobantes (`comprobante-electronico@…`), publicidad (`bcpcomunica@…`) | — | ❌ No |
 
@@ -52,7 +53,7 @@ El snippet **no** trae el monto; hay que abrir el correo. Campos: `Empresa`, `Fe
 
 Snippet: `Realizaste una transferencia de S/ 350.00 desde tu Clasica`. El destinatario (`Enviado a`), el `Mensaje` (guárdalo en `nota`, ayuda a categorizar: p. ej. "Mantenimiento") y el `Número de operación` están en el cuerpo.
 
-Transferencias a casas de cambio (p. ej. Kambista) suelen ser **cambio de moneda, no gasto**: propón excluirlas.
+Transferencias a casas de cambio (p. ej. Kambista) suelen ser **cambio de moneda, no gasto**, y las que van a fondos mutuos o cuentas de inversión (nombres con "FONDO", mensaje "Inversión") son **ahorro, no gasto**: propón excluirlas con esa `nota`.
 
 ### Retiro en cajero
 
