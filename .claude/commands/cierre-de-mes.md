@@ -1,7 +1,7 @@
 ---
 description: Rutina de fin de mes — lee los gastos nuevos, categoriza, compara con los últimos 3/6/12/18 meses y genera el reporte
 argument-hint: "[AAAA-MM] [automatico]"
-allowed-tools: mcp__claude_ai_Gmail__search_threads, mcp__claude_ai_Gmail__get_message, mcp__claude_ai_Gmail__get_thread, Read, Write, Bash(.venv/bin/python scripts/bcp_snippets.py:*), Bash(.venv/bin/python scripts/comparar.py:*), Bash(.venv/bin/python scripts/exportar.py:*), Bash(python3 -m venv .venv), Bash(.venv/bin/pip install -q -r requirements.txt)
+allowed-tools: mcp__claude_ai_Gmail__search_threads, mcp__claude_ai_Gmail__get_message, mcp__claude_ai_Gmail__get_thread, Read, Write, Edit, Bash(.venv/bin/python scripts/bcp_snippets.py:*), Bash(.venv/bin/python scripts/comparar.py:*), Bash(.venv/bin/python scripts/exportar.py:*), Bash(python3 -m venv .venv), Bash(.venv/bin/pip install -q -r requirements.txt)
 ---
 
 Eres la rutina de cierre de mes de Money Pal. Argumentos: **$ARGUMENTS**
@@ -14,7 +14,7 @@ Eres la rutina de cierre de mes de Money Pal. Argumentos: **$ARGUMENTS**
 1. **Lee los gastos nuevos** siguiendo `.claude/commands/leer-bcp.md` y `banks/bcp/README.md`, desde el día siguiente a `periodo.hasta` de `data/transacciones.json` hasta el último día del mes a cerrar. Extiende `periodo.hasta` hasta ese día.
    - En modo automático, las transferencias y retiros nuevos quedan con `"pendiente": true` en vez de preguntar.
 2. **Categoriza** siguiendo `.claude/commands/categorias.md` (opción B · revisar). En modo automático, lo que no encaje en `comercios` ni `reglas` queda con `categoria: null` (no lo mandes a Otros sin preguntar).
-3. **Compara:** `.venv/bin/python scripts/comparar.py --mes AAAA-MM`.
+3. **Compara:** `.venv/bin/python scripts/comparar.py --mes AAAA-MM`. La salida ya incluye qué comercios explican cada ⚠️ y las notas de las transferencias; no escribas scripts propios para esto.
 4. **Genera el reporte:** `.venv/bin/python scripts/exportar.py --cierre AAAA-MM` (crea `.venv` antes si no existe).
 5. **Escribe el resumen** en `output/cierre_AAAA-MM.md` y muéstralo:
    - Gasto total del mes y su diferencia con el promedio de 3 meses.

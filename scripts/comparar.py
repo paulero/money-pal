@@ -119,6 +119,21 @@ def markdown(filas, disponibles, mes):
     return "\n".join(lineas + ["", nota_historia(disponibles)])
 
 
+def explicar_alertas(trx, filas, mes, tc, n=3):
+    """Para cada categoría en alerta, los comercios que más pesaron en el mes."""
+    salida = {}
+    for f in filas:
+        if not f["alerta"]:
+            continue
+        por_comercio = defaultdict(lambda: [0, 0.0])
+        for t in trx:
+            if not t.get("excluida") and t.get("categoria") == f["id"] and t["fecha"][:7] == mes:
+                por_comercio[t["comercio"]][0] += 1
+                por_comercio[t["comercio"]][1] += t["monto"] * (tc if t["moneda"] == "USD" else 1)
+        salida[f["nombre"]] = sorted(por_comercio.items(), key=lambda kv: -kv[1][1])[:n]
+    return salida
+
+
 def cargar(ejemplo=False):
     base = RAIZ / "examples" if ejemplo else RAIZ / "data"
     sufijo = ".ejemplo.json" if ejemplo else ".json"
@@ -143,6 +158,12 @@ def main():
     filas, disponibles = comparar(datos["transacciones"], cats, datos["periodo"], mes, tc)
     print(f"Cierre de {mes} (USD a S/ {tc:.2f}, aprox.)\n")
     print(markdown(filas, disponibles, mes))
+    alertas = explicar_alertas(datos["transacciones"], filas, mes, tc)
+    if alertas:
+        print("\n**Qué explica cada ⚠️**\n")
+        for nombre, top in alertas.items():
+            detalle = ", ".join(f"{c} (S/ {v:,.0f}{f', {k} pagos' if k > 1 else ''})" for c, (k, v) in top)
+            print(f"- {nombre}: {detalle}")
 
 
 if __name__ == "__main__":
