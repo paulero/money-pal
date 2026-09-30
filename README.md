@@ -1,6 +1,6 @@
 # Money Pal · M.ainy p@l
 
-**Tu asistente de gastos personales, open source y con la privacidad primero.**
+**Tu asistente de gastos personales, open source y con la privacidad por diseño.**
 
 Money Pal usa **Claude Code + tu Gmail** para leer los avisos de movimientos que te envían **tus bancos** (hoy **BCP**, y cualquiera puede [agregar el suyo](banks/README.md) sin programar), ordenarlos en categorías y generar un reporte en **Excel o PDF**. Todo corre en tu propia computadora: tus datos bancarios nunca se suben a este repositorio ni a ningún servidor nuestro.
 
