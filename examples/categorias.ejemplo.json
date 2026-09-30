@@ -1,13 +1,63 @@
 {
   "moneda_base": "PEN",
   "categorias": [
-    { "id": "comida", "nombre": "Comida", "presupuesto_mensual": 1200, "reglas": ["WONG", "TAMBO", "PLAZA VEA", "RAPPI", "CAFE"] },
-    { "id": "casa-y-servicios", "nombre": "Casa y servicios", "presupuesto_mensual": 600, "reglas": ["LUZ DEL SUR", "SEDAPAL", "CLARO", "PROMART"] },
-    { "id": "transporte", "nombre": "Transporte", "presupuesto_mensual": 400, "reglas": ["PRIMAX", "REPSOL", "UBER", "CABIFY"] },
-    { "id": "estilo-de-vida", "nombre": "Estilo de vida", "presupuesto_mensual": 500, "reglas": ["CINEPLANET", "FALABELLA", "LIBRERIA"] },
-    { "id": "suscripciones-y-compromisos", "nombre": "Suscripciones y compromisos", "presupuesto_mensual": 300, "reglas": ["NETFLIX", "SPOTIFY", "SEGUROS"] }
+    {
+      "id": "casa-y-servicios",
+      "nombre": "Casa y servicios",
+      "presupuesto_mensual": 900,
+      "reglas": [
+        "LUZ DEL SUR",
+        "SEDAPAL",
+        "CLARO",
+        "PROMART",
+        "SODIMAC",
+        "JUNTA DE PROPIETARIOS"
+      ]
+    },
+    {
+      "id": "comida-y-salidas",
+      "nombre": "Comida y salidas",
+      "presupuesto_mensual": 1200,
+      "reglas": [
+        "WONG",
+        "TAMBO",
+        "PLAZA VEA",
+        "RAPPI",
+        "CAFE"
+      ]
+    },
+    {
+      "id": "transporte",
+      "nombre": "Transporte",
+      "presupuesto_mensual": 400,
+      "reglas": [
+        "PRIMAX",
+        "REPSOL",
+        "UBER",
+        "CABIFY"
+      ]
+    },
+    {
+      "id": "suscripciones-y-deporte",
+      "nombre": "Suscripciones y deporte",
+      "presupuesto_mensual": 300,
+      "reglas": [
+        "NETFLIX",
+        "SPOTIFY",
+        "SMARTFIT"
+      ]
+    },
+    {
+      "id": "otros",
+      "nombre": "Otros",
+      "presupuesto_mensual": 200,
+      "reglas": [
+        "CINEPLANET",
+        "LIBRERIA"
+      ]
+    }
   ],
   "comercios": {
-    "BIM-JUAN PEREZ": "comida"
+    "BIM-JUAN PEREZ": "casa-y-servicios"
   }
 }

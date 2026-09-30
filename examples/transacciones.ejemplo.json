@@ -1,15 +1,99 @@
 {
   "banco": "bcp",
   "actualizado": "2026-09-30T20:00:00-05:00",
-  "periodo": { "desde": "2026-09-01", "hasta": "2026-09-30" },
+  "periodo": {
+    "desde": "2026-09-01",
+    "hasta": "2026-09-30"
+  },
   "transacciones": [
-    { "id": "ejemplo-001", "fecha": "2026-09-02T13:15:00-05:00", "tipo": "consumo", "medio": "credito", "tarjeta": "1234", "moneda": "PEN", "monto": 58.40, "comercio": "WONG SAN ISIDRO", "categoria": "comida" },
-    { "id": "ejemplo-002", "fecha": "2026-09-03T08:02:00-05:00", "tipo": "consumo", "medio": "credito", "tarjeta": "1234", "moneda": "USD", "monto": 11.99, "comercio": "SPOTIFY", "categoria": "suscripciones-y-compromisos" },
-    { "id": "ejemplo-003", "fecha": "2026-09-05T19:40:00-05:00", "tipo": "consumo", "medio": "debito", "tarjeta": "5678", "moneda": "PEN", "monto": 25.00, "comercio": "BIM-JUAN PEREZ", "categoria": "comida" },
-    { "id": "ejemplo-004", "fecha": "2026-09-08T10:30:00-05:00", "tipo": "pago_servicio", "medio": "credito", "tarjeta": "1234", "moneda": "PEN", "monto": 98.50, "comercio": "LUZ DEL SUR SAA", "categoria": "casa-y-servicios" },
-    { "id": "ejemplo-005", "fecha": "2026-09-12T18:20:00-05:00", "tipo": "consumo", "medio": "credito", "tarjeta": "1234", "moneda": "PEN", "monto": 180.00, "comercio": "PRIMAX LA MOLINA", "categoria": "transporte" },
-    { "id": "ejemplo-006", "fecha": "2026-09-14T19:00:00-05:00", "tipo": "transferencia", "medio": "cuenta", "tarjeta": null, "moneda": "PEN", "monto": 350.00, "comercio": "JUNTA DE PROPIETARIOS EJEMPLO", "categoria": "casa-y-servicios" },
-    { "id": "ejemplo-007", "fecha": "2026-09-20T21:10:00-05:00", "tipo": "consumo", "medio": "credito", "tarjeta": "1234", "moneda": "PEN", "monto": 42.00, "comercio": "CINEPLANET SALAVERRY", "categoria": "estilo-de-vida" },
-    { "id": "ejemplo-008", "fecha": "2026-09-24T16:45:00-05:00", "tipo": "transferencia", "medio": "cuenta", "tarjeta": null, "moneda": "PEN", "monto": 1000.00, "comercio": "AHORROS PROPIOS", "categoria": null, "excluida": true }
+    {
+      "id": "ejemplo-001",
+      "fecha": "2026-09-02T13:15:00-05:00",
+      "tipo": "consumo",
+      "medio": "credito",
+      "tarjeta": "1234",
+      "moneda": "PEN",
+      "monto": 58.4,
+      "comercio": "WONG SAN ISIDRO",
+      "categoria": "comida-y-salidas"
+    },
+    {
+      "id": "ejemplo-002",
+      "fecha": "2026-09-03T08:02:00-05:00",
+      "tipo": "consumo",
+      "medio": "credito",
+      "tarjeta": "1234",
+      "moneda": "USD",
+      "monto": 11.99,
+      "comercio": "SPOTIFY",
+      "categoria": "suscripciones-y-deporte"
+    },
+    {
+      "id": "ejemplo-003",
+      "fecha": "2026-09-05T19:40:00-05:00",
+      "tipo": "consumo",
+      "medio": "debito",
+      "tarjeta": "5678",
+      "moneda": "PEN",
+      "monto": 25.0,
+      "comercio": "BIM-JUAN PEREZ",
+      "categoria": "casa-y-servicios"
+    },
+    {
+      "id": "ejemplo-004",
+      "fecha": "2026-09-08T10:30:00-05:00",
+      "tipo": "pago_servicio",
+      "medio": "credito",
+      "tarjeta": "1234",
+      "moneda": "PEN",
+      "monto": 98.5,
+      "comercio": "LUZ DEL SUR SAA",
+      "categoria": "casa-y-servicios"
+    },
+    {
+      "id": "ejemplo-005",
+      "fecha": "2026-09-12T18:20:00-05:00",
+      "tipo": "consumo",
+      "medio": "credito",
+      "tarjeta": "1234",
+      "moneda": "PEN",
+      "monto": 180.0,
+      "comercio": "PRIMAX LA MOLINA",
+      "categoria": "transporte"
+    },
+    {
+      "id": "ejemplo-006",
+      "fecha": "2026-09-14T19:00:00-05:00",
+      "tipo": "transferencia",
+      "medio": "cuenta",
+      "tarjeta": null,
+      "moneda": "PEN",
+      "monto": 350.0,
+      "comercio": "JUNTA DE PROPIETARIOS EJEMPLO",
+      "categoria": "casa-y-servicios"
+    },
+    {
+      "id": "ejemplo-007",
+      "fecha": "2026-09-20T21:10:00-05:00",
+      "tipo": "consumo",
+      "medio": "credito",
+      "tarjeta": "1234",
+      "moneda": "PEN",
+      "monto": 42.0,
+      "comercio": "CINEPLANET SALAVERRY",
+      "categoria": "otros"
+    },
+    {
+      "id": "ejemplo-008",
+      "fecha": "2026-09-24T16:45:00-05:00",
+      "tipo": "transferencia",
+      "medio": "cuenta",
+      "tarjeta": null,
+      "moneda": "PEN",
+      "monto": 1000.0,
+      "comercio": "AHORROS PROPIOS",
+      "categoria": null,
+      "excluida": true
+    }
   ]
 }

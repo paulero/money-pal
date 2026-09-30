@@ -1,5 +1,5 @@
 ---
-description: Define o revisa tus categorías de gasto (idealmente 3 o 5, máximo 7) y categoriza tus transacciones
+description: Define o revisa tus categorías de gasto (5 recomendadas, más de 7 no se recomienda) y categoriza tus transacciones
 argument-hint: "[revisar | nueva]"
 allowed-tools: Read, Write
 ---
@@ -10,17 +10,26 @@ Archivos (ambos en `data/`, fuera de git):
 - `data/transacciones.json`: generado por `/leer-bcp`. Si no existe, pide correr `/leer-bcp` primero y detente.
 - `data/categorias.json`: tus categorías y reglas.
 
-## Principio: pocas categorías
+## Principio: 5 categorías
 
-Menos categorías = decisiones más claras. **Idealmente 3 o 5, nunca más de 7.** Si el usuario pide más de 7, explícale por qué conviene agrupar y propón cómo fusionarlas. Nunca guardes más de 7.
+El enfoque recomendado son **5 categorías**: suficiente detalle para decidir, pocas para no perderse.
+
+- **6 o 7:** está bien si el usuario lo pide.
+- **Más de 7: no se recomienda.** Explica que con tantas categorías el reporte se vuelve difícil de leer y propón fusiones concretas. Si el usuario insiste, respeta su decisión.
+- **Fusiona** las categorías pequeñas: si una pesa menos del 3% del gasto, propón unirla a la más cercana.
 
 ## A · Primera vez (no existe `data/categorias.json`, o la opción es `nueva`)
 
 1. Analiza las transacciones no excluidas: agrupa por comercio y suma montos por moneda. Para los porcentajes, convierte USD a PEN con un tipo de cambio aproximado y dilo (p. ej. "USD a 3.50").
-2. Propón **dos alternativas** en tablas, con el monto y porcentaje de cada categoría:
-   - **Simple (3):** p. ej. *Esenciales* (supermercado, servicios, salud, transporte), *Estilo de vida* (restaurantes, compras, entretenimiento, viajes) y *Compromisos* (deudas, seguros, suscripciones).
-   - **Detallada (5):** ajustada a sus gastos reales. Usa como punto de partida: Comida, Casa y servicios, Transporte, Estilo de vida, Suscripciones y compromisos.
-3. Pregunta cuál prefiere y si quiere renombrar, mover comercios o agregar alguna (máximo 7).
+2. Propón **5 categorías** en una tabla, con número de transacciones, monto y porcentaje de cada una. Punto de partida (ajústalo a sus gastos reales):
+   - *Casa y servicios*: luz, agua, teléfono, mantenimiento, ferretería, ayuda en casa.
+   - *Comida y salidas*: supermercado, restaurantes, delivery.
+   - *Transporte*: combustible, taxis/apps, seguro vehicular, estacionamiento.
+   - *Suscripciones y deporte*: streaming, apps, software, gimnasio, deportes.
+   - *Otros*: lo que no encaje; si crece mucho, conviértelo en su propia categoría.
+
+   Si una categoría del punto de partida casi no tiene gastos, fusiónala y usa ese espacio para lo que sí pesa en su caso.
+3. Muestra los comercios que no pudiste ubicar y pregunta a qué categoría va cada uno. Pregunta también si quiere renombrar, fusionar o agregar categorías (ver el principio de arriba).
 4. Pregunta opcionalmente un **presupuesto mensual en soles** por categoría (se puede omitir).
 5. Guarda `data/categorias.json`:
 

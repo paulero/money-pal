@@ -17,7 +17,7 @@ Luego, dentro de Claude Code en la carpeta `money-pal`:
 | Comando | Qué hace |
 |---|---|
 | `/leer-bcp 3 meses` | Lee tus correos del BCP y guarda las transacciones en `data/` (solo en tu computadora). |
-| `/categorias` | Te propone 3 o 5 categorías (máximo 7), las ajustas a tu gusto y categoriza todo. |
+| `/categorias` | Te propone 5 categorías según tus gastos, las ajustas a tu gusto y categoriza todo. |
 | `/categorias revisar` | Categoriza los gastos nuevos y te pregunta solo por comercios desconocidos. |
 
 Mira el formato con [datos de ejemplo](examples/).
@@ -26,7 +26,7 @@ Mira el formato con [datos de ejemplo](examples/).
 
 - **Lee tus correos de consumo** del banco desde tu Gmail (solo lectura).
 - **Extrae cada transacción**: fecha, comercio, tarjeta, moneda y monto.
-- **Te ayuda a definir tus categorías**: idealmente 3 o 5, máximo 7. Menos categorías = decisiones más claras.
+- **Te ayuda a definir tus categorías**: 5 recomendadas; puedes agregar, pero más de 7 no se recomienda. Pocas categorías = decisiones más claras.
 - **Exporta a Excel o PDF**: resumen por categoría, detalle por mes y gastos recurrentes.
 - **Rutina de fin de mes**: compara tus gastos de los últimos **3, 6, 12 y 18 meses**.
 - **Sugerencias según tu perfil** (riesgo, edad, metas): ahorrar, salir de deudas, independencia financiera (FI) u otra meta.
