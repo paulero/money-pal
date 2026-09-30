@@ -18,10 +18,11 @@ Luego, dentro de Claude Code en la carpeta `money-pal`:
 
 | Comando | Qué hace |
 |---|---|
-| `/leer-bcp nuevos` | Lee tus correos nuevos del BCP (también de la papelera) y guarda las transacciones en `data/` (solo en tu computadora). Acepta `2026-05` o `3 meses`. |
+| `/leer-correos` | Lee tus correos nuevos de tus bancos (también de la papelera) y guarda las transacciones en `data/` (solo en tu computadora). Acepta `2026-05` o `3 meses`. |
 | `/categorias` | Te propone 5 categorías según tus gastos, las ajustas a tu gusto y categoriza todo. |
 | `/categorias revisar` | Categoriza los gastos nuevos y te pregunta solo por comercios desconocidos. |
 | `/exportar` | Genera tu reporte en Excel y PDF en `output/` (también `/exportar pdf septiembre`). |
+| `/nuevo-banco interbank` | Agrega tu banco a Money Pal desde tus propios correos, sin programar, y prepara la contribución. |
 | `/cierre-de-mes` | Rutina de fin de mes: lee lo nuevo, categoriza y compara el mes con tus promedios de 3, 6, 12 y 18 meses. Se puede [programar cada mes](docs/rutina.md). |
 
 Mira el formato con [datos de ejemplo](examples/), o genera un reporte de prueba sin tus datos:
@@ -65,15 +66,17 @@ money-pal/
 
 1. [x] Repositorio, licencia y reglas de privacidad
 2. [x] [Guía de instalación: Claude Code + Gmail + BCP](docs/instalacion.md)
-3. [x] Lector de correos BCP + definición de categorías (`/leer-bcp`, `/categorias`)
+3. [x] Lector de correos BCP + definición de categorías (`/leer-correos`, `/categorias`)
 4. [x] Exportación a Excel y PDF (`/exportar`)
 5. [x] [Rutina de fin de mes](docs/rutina.md) (comparativo 3 / 6 / 12 / 18 meses, `/cierre-de-mes`)
-6. [ ] Guía para agregar otros bancos e instituciones
+6. [x] Agregar otros bancos: [plantilla `banco.json`](banks/README.md), `/nuevo-banco` y pruebas automáticas
 7. [ ] Sugerencias según perfil (riesgo, edad, metas)
 
 ## Contribuir
 
-Money Pal es open source para que cualquiera pueda **agregar su banco o institución**: es escribir un `banco.json` y unas pruebas con correos ficticios, sin programar. Mira [banks/README.md](banks/README.md). Nunca incluyas datos reales en tus contribuciones.
+Money Pal es open source para que cualquiera pueda **agregar su banco o institución**. Si tienes cuenta en un banco que aún no está, abre Claude Code en `money-pal` y escribe `/nuevo-banco <banco>`: Claude revisa tus correos (solo lectura), escribe las reglas y crea pruebas con correos **inventados**, verifica que no se filtre ningún dato real y prepara el Pull Request. Detalles en [banks/README.md](banks/README.md).
+
+Cada Pull Request pasa pruebas automáticas: valida los bancos, genera el reporte de ejemplo y bloquea cualquier archivo con datos personales.
 
 ## Aviso
 

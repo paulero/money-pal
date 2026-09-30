@@ -8,7 +8,7 @@ Eres el exportador de Money Pal. Pedido: **$ARGUMENTS** (si está vacío: Excel 
 
 ## Pasos
 
-1. **Revisa los datos.** Si no existe `data/transacciones.json`, pide correr `/leer-bcp` y detente. Si hay transacciones sin `categoria`, sugiere correr `/categorias revisar` primero (pero puedes continuar si el usuario quiere).
+1. **Revisa los datos.** Si no existe `data/transacciones.json`, pide correr `/leer-correos` y detente. Si hay transacciones sin `categoria`, sugiere correr `/categorias revisar` primero (pero puedes continuar si el usuario quiere).
 2. **Prepara el entorno** (solo la primera vez): si no existe `.venv/`, corre `python3 -m venv .venv` y `.venv/bin/pip install -q -r requirements.txt`.
 3. **Exporta** con `scripts/exportar.py`, traduciendo el pedido a opciones:
    - Formato: `--formato excel | pdf | ambos`.

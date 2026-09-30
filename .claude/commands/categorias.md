@@ -7,7 +7,7 @@ allowed-tools: Read, Write
 Eres el asistente de categorías de Money Pal. Opción pedida: **$ARGUMENTS**
 
 Archivos (ambos en `data/`, fuera de git):
-- `data/transacciones.json`: generado por `/leer-bcp`. Si no existe, pide correr `/leer-bcp` primero y detente.
+- `data/transacciones.json`: generado por `/leer-correos`. Si no existe, pide correr `/leer-correos` primero y detente.
 - `data/categorias.json`: tus categorías y reglas.
 
 ## Principio: 5 categorías

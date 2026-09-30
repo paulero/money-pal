@@ -2,7 +2,7 @@
 
 Cómo se convierten los correos de notificación del BCP en transacciones.
 
-- **[`banco.json`](banco.json)** es la fuente de verdad: remitentes, tipos de correo, patrones y lo que se ignora. El parser [`scripts/leer_correos.py`](../../scripts/leer_correos.py) y el comando [`/leer-bcp`](../../.claude/commands/leer-bcp.md) lo usan.
+- **[`banco.json`](banco.json)** es la fuente de verdad: remitentes, tipos de correo, patrones y lo que se ignora. El parser [`scripts/leer_correos.py`](../../scripts/leer_correos.py) y el comando [`/leer-correos`](../../.claude/commands/leer-correos.md) lo usan.
 - **Este README** explica esas reglas para personas.
 - **[`pruebas/`](pruebas/)** tiene correos ficticios y el resultado esperado. Verifícalo con `.venv/bin/python scripts/probar_bancos.py bcp`.
 

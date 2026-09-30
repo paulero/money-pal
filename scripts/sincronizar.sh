@@ -4,4 +4,4 @@
 set -euo pipefail
 source "$(dirname "$0")/_claude.sh"
 
-correr_claude "/leer-bcp nuevos automatico" "output/logs/sincronizar-$(date +%Y-%m-%d).log"
+correr_claude "/leer-correos nuevos automatico" "output/logs/sincronizar-$(date +%Y-%m-%d).log"

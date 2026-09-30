@@ -153,7 +153,7 @@ def main():
     datos, cats = cargar(a.ejemplo)
     mes = a.mes or ultimo_mes_completo(datos["periodo"])
     if not mes:
-        raise SystemExit("Aún no hay un mes completo de datos. Corre /leer-bcp con un periodo más largo.")
+        raise SystemExit("Aún no hay un mes completo de datos. Corre /leer-correos con un periodo más largo.")
     tc = a.tc or cats.get("tipo_cambio_usd") or 3.50
     filas, disponibles = comparar(datos["transacciones"], cats, datos["periodo"], mes, tc)
     print(f"Cierre de {mes} (USD a S/ {tc:.2f}, aprox.)\n")

@@ -25,10 +25,15 @@ correr_claude() {
   claude -p "$1" --allowedTools "${HERRAMIENTAS[@]}" > "$2" 2>&1
 }
 
-# Inicio del periodo guardado (AAAA-MM-DD), o vacío si aún no hay datos
+# Inicio del periodo guardado de un banco (AAAA-MM-DD), o vacío si aún no hay datos de ese banco
+# Uso: periodo_desde <banco>
 periodo_desde() {
-  [ -f data/transacciones.json ] && .venv/bin/python -c \
-    "import json;print((json.load(open('data/transacciones.json')).get('periodo') or {}).get('desde',''))" || true
+  [ -f data/transacciones.json ] && .venv/bin/python - "$1" <<'PY' || true
+import json, sys
+d = json.load(open("data/transacciones.json"))
+periodos = d.get("periodos") or ({"bcp": d["periodo"]} if d.get("periodo") else {})
+print((periodos.get(sys.argv[1]) or {}).get("desde", ""))
+PY
 }
 
 avisar() {

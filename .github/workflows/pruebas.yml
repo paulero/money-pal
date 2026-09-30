@@ -1,0 +1,39 @@
+name: Pruebas
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Nada de datos reales en el repositorio
+        run: |
+          if git ls-files | grep -E '^(data|output)/|\.(xlsx|xls|csv|pdf)$'; then
+            echo "::error::Estos archivos no deben subirse (datos personales o reportes)."
+            exit 1
+          fi
+          if grep -rlE '"(toRecipients|ccRecipients|viewUrl|historyId)"' banks/*/pruebas/ 2>/dev/null; then
+            echo "::error::Las pruebas de bancos no deben incluir destinatarios, enlaces ni historyId."
+            exit 1
+          fi
+
+      - name: Bancos (banco.json y pruebas con correos ficticios)
+        run: python scripts/probar_bancos.py
+
+      - name: Scripts de shell
+        run: for f in scripts/*.sh; do bash -n "$f"; done
+
+      - name: Reporte de ejemplo (Excel, PDF y cierre de mes)
+        run: |
+          pip install -q -r requirements.txt
+          python scripts/comparar.py --ejemplo
+          python scripts/exportar.py --ejemplo --cierre --salida /tmp/salida
+          ls -la /tmp/salida

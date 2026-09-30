@@ -96,7 +96,7 @@ scripts/importar-historial.sh 18
 
 Lee Gmail (incluida la papelera) **mes por mes hacia atrás**, hasta 18 meses o hasta donde encuentre correos del BCP. Cada mes corre en una sesión nueva de Claude, así funciona igual con 50 o con 1,500 correos. Toma unos minutos por mes; puedes dejarlo corriendo.
 
-¿Prefieres empezar rápido? En Claude Code: `/leer-bcp 3 meses`.
+¿Prefieres empezar rápido? En Claude Code: `/leer-correos bcp 3 meses`.
 
 ## Paso 7 · Categorías, reporte y rutinas
 

@@ -399,7 +399,7 @@ def main():
     else:
         rutas = Path(a.datos) / "transacciones.json", Path(a.datos) / "categorias.json"
     if not rutas[0].exists():
-        raise SystemExit(f"No encontré {rutas[0]}. Corre /leer-bcp primero (o usa --ejemplo).")
+        raise SystemExit(f"No encontré {rutas[0]}. Corre /leer-correos primero (o usa --ejemplo).")
     mes_cierre = None
     if a.cierre:
         from comparar import ultimo_mes_completo
@@ -410,7 +410,7 @@ def main():
         desde, hasta = desde or parse_fecha(mes_cierre), hasta or parse_fecha(mes_cierre, fin=True)
     filas, cats = cargar(*rutas, desde, hasta)
     if not filas:
-        raise SystemExit("No hay transacciones en ese periodo. Revisa --desde / --hasta o corre /leer-bcp para traer más meses.")
+        raise SystemExit("No hay transacciones en ese periodo. Revisa --desde / --hasta o corre /leer-correos para traer más meses.")
     tc = a.tc or cats.get("tipo_cambio_usd") or 3.50
     # Meses del periodo según días, redondeado a medio mes (29/08–29/09 = 1 mes), para promedios y presupuestos
     inicio, fin = desde or filas[0]["dt"].date(), hasta or filas[-1]["dt"].date()

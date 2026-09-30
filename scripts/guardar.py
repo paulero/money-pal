@@ -48,20 +48,31 @@ def ampliar_periodo(periodo, desde, hasta):
     return {"desde": min(desde, p_desde).isoformat(), "hasta": max(hasta, p_hasta).isoformat()}, True
 
 
+def periodo_comun(periodos):
+    """Rango cubierto por TODOS los bancos: los promedios solo usan meses con datos completos de cada uno."""
+    rangos = [p for p in periodos.values() if p]
+    if not rangos:
+        return None
+    desde, hasta = max(p["desde"] for p in rangos), min(p["hasta"] for p in rangos)
+    return {"desde": desde, "hasta": hasta} if desde <= hasta else None
+
+
 def main():
     p = argparse.ArgumentParser(description="Agrega transacciones nuevas a data/transacciones.json.")
     p.add_argument("archivos", nargs="*")
     p.add_argument("--desde", required=True, help="AAAA-MM-DD, primer día leído (hora de Lima)")
     p.add_argument("--hasta", required=True, help="AAAA-MM-DD, último día leído (hora de Lima)")
     p.add_argument("--automatico", action="store_true")
-    p.add_argument("--banco", default="bcp", help="Banco de las transacciones que no lo indiquen")
+    p.add_argument("--banco", default="bcp", help="Banco leído (carpeta en banks/); su periodo es el que se amplía")
     p.add_argument("--datos", default=str(RAIZ / "data"))
     a = p.parse_args()
 
     desde, hasta = date.fromisoformat(a.desde), date.fromisoformat(a.hasta)
     ruta_trx, ruta_cat = Path(a.datos) / "transacciones.json", Path(a.datos) / "categorias.json"
     datos = json.loads(ruta_trx.read_text(encoding="utf-8")) if ruta_trx.exists() else \
-        {"banco": "bcp", "periodo": None, "transacciones": []}
+        {"periodo": None, "periodos": {}, "transacciones": []}
+    if "periodos" not in datos:  # formato anterior: un solo banco
+        datos["periodos"] = {datos.pop("banco", "bcp"): datos["periodo"]} if datos.get("periodo") else {}
     cats = json.loads(ruta_cat.read_text(encoding="utf-8")) if ruta_cat.exists() else {}
 
     existentes = {t["id"] for t in datos["transacciones"]}
@@ -84,11 +95,12 @@ def main():
             nuevas.append(t)
 
     if not en_rango:
-        print(f"SIN_CORREOS: no hay transacciones del BCP entre {desde} y {hasta}; el periodo no se amplía.")
+        print(f"SIN_CORREOS: no hay transacciones de {a.banco} entre {desde} y {hasta}; el periodo no se amplía.")
         return
 
-    periodo, continuo = ampliar_periodo(datos.get("periodo"), desde, hasta)
-    datos["periodo"] = periodo
+    periodo, continuo = ampliar_periodo(datos["periodos"].get(a.banco), desde, hasta)
+    datos["periodos"][a.banco] = periodo
+    datos["periodo"] = periodo_comun(datos["periodos"])
     datos["transacciones"] = sorted(datos["transacciones"] + nuevas, key=lambda t: t["fecha"])
     datos["actualizado"] = datetime.now(LIMA).isoformat(timespec="seconds")
     ruta_trx.parent.mkdir(exist_ok=True)
@@ -100,7 +112,7 @@ def main():
     sin_cat = sum(1 for t in nuevas if not t.get("excluida") and not t["categoria"])
     pendientes = sum(1 for t in nuevas if t.get("pendiente"))
     print(f"GUARDADO: {len(nuevas)} nuevas {por_tipo} · {sin_cat} sin categoría · {pendientes} pendientes · "
-          f"{fuera} fuera de rango · periodo {periodo['desde']} a {periodo['hasta']}")
+          f"{fuera} fuera de rango · {a.banco}: {periodo['desde']} a {periodo['hasta']}")
     if not continuo:
         print("AVISO: el rango no es continuo con el periodo guardado; el periodo no se amplió.")
 

@@ -11,7 +11,7 @@ Eres la rutina de cierre de mes de Money Pal. Argumentos: **$ARGUMENTS**
 
 ## Pasos
 
-1. **Lee los gastos nuevos** siguiendo `.claude/commands/leer-bcp.md` (modo `nuevos`), hasta el último día del mes a cerrar. `guardar.py` amplía el periodo; en modo automático usa `--automatico` (transferencias y retiros quedan pendientes).
+1. **Lee los gastos nuevos** siguiendo `.claude/commands/leer-correos.md` (modo `nuevos`, todos tus bancos), hasta el último día del mes a cerrar. `guardar.py` amplía el periodo; en modo automático usa `--automatico` (transferencias y retiros quedan pendientes).
 2. **Categoriza** siguiendo `.claude/commands/categorias.md` (opción B · revisar). En modo automático, lo que no encaje en `comercios` ni `reglas` queda con `categoria: null` (no lo mandes a Otros sin preguntar).
 3. **Compara:** `.venv/bin/python scripts/comparar.py --mes AAAA-MM`. La salida ya incluye qué comercios explican cada ⚠️ y las notas de las transferencias; no escribas scripts propios para esto.
 4. **Genera el reporte:** `.venv/bin/python scripts/exportar.py --cierre AAAA-MM` (crea `.venv` antes si no existe).

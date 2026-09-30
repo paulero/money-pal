@@ -34,7 +34,7 @@ scripts/instalar-rutinas.sh
 
 | Rutina | Cuándo | Qué hace |
 |---|---|---|
-| Lectura semanal | Lunes 9:00 | `/leer-bcp nuevos` — guarda los correos nuevos del BCP. |
+| Lectura semanal | Lunes 9:00 | `/leer-correos` — guarda los correos nuevos de tus bancos. |
 | Cierre de mes | Día 1, 10:00 | `/cierre-de-mes` — compara el mes con tus promedios y genera el reporte. |
 
 **¿Por qué semanal?** Money Pal guarda cada transacción en `data/`, así que después ya no importa si borras el correo. Pero Gmail vacía la papelera a los 30 días: si alguien borra sus notificaciones apenas llegan, una lectura solo mensual podría llegar tarde. Leyendo cada semana, nada se pierde **y nadie tiene que cambiar cómo usa su Gmail**.
