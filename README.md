@@ -28,7 +28,7 @@ Luego, dentro de Claude Code en la carpeta `money-pal`:
 Mira el formato con [datos de ejemplo](examples/), o genera un reporte de prueba sin tus datos:
 
 ```bash
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+python3 -m venv .venv && .venv/bin/pip install --require-hashes -r requirements.txt
 .venv/bin/python scripts/exportar.py --ejemplo --cierre
 ```
 

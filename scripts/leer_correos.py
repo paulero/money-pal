@@ -20,6 +20,7 @@ import re
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+from patrones import PatronLento, buscar
 from privado import proteger_carpetas
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -95,10 +96,19 @@ def procesar(banco, rutas):
                 base = {"id": m["id"], "fecha": fecha.isoformat(timespec="minutes")}
 
                 regla = next((t for t in banco["tipos"] if contiene(asunto, t["asunto_contiene"])), None)
-                if regla and regla["fuente"] == "snippet" and (r := regla["_re"].search(snippet)):
+                r, lento = None, False
+                if regla and regla["fuente"] == "snippet":
+                    try:
+                        r = buscar(regla["_re"], snippet)
+                    except PatronLento:  # patrón mal escrito en banco.json: no congela la lectura, se lee el correo
+                        lento = True
+                        avisos.append(f"{base['fecha'][:10]} · el patrón de '{regla['tipo']}' tardó demasiado; "
+                                      "revisa banks/<banco>/banco.json")
+                if r:
                     trx.append(extraer(regla, r, banco, base))
                 elif regla:
-                    motivo = "snippet incompleto" if regla["fuente"] == "snippet" else "datos en el cuerpo"
+                    motivo = ("patrón demasiado lento" if lento else
+                              "snippet incompleto" if regla["fuente"] == "snippet" else "datos en el cuerpo")
                     abrir.append({"id": m["id"], "tipo": regla["tipo"], "fecha": base["fecha"], "motivo": motivo})
                 else:
                     clave = limpiar_asunto(asunto, banco)
