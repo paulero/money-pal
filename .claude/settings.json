@@ -26,5 +26,19 @@
       "mcp__claude_ai_Gmail__apply_sensitive_message_label",
       "mcp__claude_ai_Gmail__apply_sensitive_thread_label"
     ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__claude_ai_Gmail__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/gmail_solo_lectura.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
   }
 }

@@ -63,7 +63,9 @@ Siempre abre Claude Code **dentro de la carpeta `money-pal`**. Así se aplican l
 
 ### Seguridad: Gmail en solo lectura
 
-El archivo [`.claude/settings.json`](../.claude/settings.json) **bloquea** todas las acciones que modifican tu Gmail: enviar, responder, reenviar, borrar, crear borradores, marcar como spam o cambiar etiquetas. Dentro de este proyecto, Claude solo puede **buscar y leer** correos.
+Dentro de este proyecto, Claude solo puede **buscar y leer** correos. El archivo [`.claude/settings.json`](../.claude/settings.json) deja pasar únicamente las herramientas de lectura de Gmail (las demás, incluidas las que el conector agregue en el futuro, se bloquean) y además bloquea una por una las que modifican tu correo: enviar, responder, reenviar, borrar, crear borradores, marcar como spam o cambiar etiquetas.
+
+> ⚠️ **Ese límite se aplica en tu computadora, no en Google.** El permiso que le das al conector en el Paso 3 cubre todo lo que el conector sabe hacer (también enviar o borrar). Money Pal se limita a leer, pero si dejas de usarlo o pierdes tu computadora, revoca el acceso: [cómo hacerlo](../SECURITY.md#revocar-el-acceso-a-tu-gmail).
 
 ## Paso 5 · Prueba de conexión
 
