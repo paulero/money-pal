@@ -43,6 +43,9 @@ jobs:
       - name: Bancos (banco.json y pruebas con correos ficticios)
         run: python scripts/probar_bancos.py
 
+      - name: DMARC de los remitentes (comparado con el DNS real)
+        run: python scripts/dmarc.py --verificar
+
       - name: Scripts de shell
         run: for f in scripts/*.sh; do bash -n "$f"; done
 

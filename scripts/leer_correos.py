@@ -11,7 +11,7 @@ Uso:
   .venv/bin/python scripts/leer_correos.py --banco bcp resultado1.json [...] --salida data/tmp/2026-05.json
 
 Imprime un resumen corto; el detalle queda en --salida:
-  {"trx": [...], "abrir": [...], "ignorados": {...}, "avisos": [...], "desconocidos": {...}}
+  {"trx": [...], "abrir": [...], "ignorados": {...}, "avisos": [...], "desconocidos": {...}, "spam": [...]}
 """
 
 import argparse
@@ -77,6 +77,7 @@ def extraer(regla, r, banco, base):
 
 def procesar(banco, rutas):
     trx, abrir, ignorados, avisos, desconocidos, vistos = [], [], {}, [], {}, set()
+    spam = []
     remitentes = [r.lower() for r in banco["remitentes"]]
     for ruta in rutas:
         for hilo in cargar_resultado(ruta).get("threads", []):
@@ -84,6 +85,11 @@ def procesar(banco, rutas):
                 if m["id"] in vistos or m.get("sender", "").lower() not in remitentes:
                     continue
                 vistos.add(m["id"])
+                # El remitente de un correo se puede falsificar. Los bancos verificados publican DMARC
+                # (quarantine/reject), así que Gmail manda los avisos falsos a spam: nunca se leen desde ahí.
+                if "SPAM" in m.get("labelIds", []):
+                    spam.append({"id": m["id"], "fecha": m["date"][:10], "asunto": limpiar_asunto(m.get("subject", ""), banco)})
+                    continue
                 asunto, snippet = m.get("subject", ""), m.get("snippet", "")
                 fecha = datetime.fromisoformat(m["date"].replace("Z", "+00:00")).astimezone(banco["_tz"])
                 base = {"id": m["id"], "fecha": fecha.isoformat(timespec="minutes")}
@@ -102,7 +108,7 @@ def procesar(banco, rutas):
                         desconocidos[clave] = desconocidos.get(clave, 0) + 1
                     elif conocido.get("avisar"):
                         avisos.append(f"{base['fecha'][:10]} · {clave}: {conocido['motivo']}")
-    return {"trx": trx, "abrir": abrir, "ignorados": ignorados, "avisos": avisos, "desconocidos": desconocidos}
+    return {"trx": trx, "abrir": abrir, "ignorados": ignorados, "avisos": avisos, "desconocidos": desconocidos, "spam": spam}
 
 
 def main():
@@ -129,6 +135,11 @@ def main():
     print("Ignorados por asunto:", json.dumps(res["ignorados"], ensure_ascii=False))
     for aviso in res["avisos"]:
         print("AVISO:", aviso)
+    if res["spam"]:
+        print(f"SPAM: {len(res['spam'])} correo(s) con el remitente del banco están en spam y NO se leyeron "
+              "(pueden ser falsos). Si alguno es tuyo, márcalo como 'No es spam' en Gmail y vuelve a leer:")
+        for x in res["spam"]:
+            print(f"  {x['id']}  {x['fecha']}  {x['asunto']}")
     if res["desconocidos"]:
         print("ASUNTOS NUEVOS (revisar si alguno es un gasto):", json.dumps(res["desconocidos"], ensure_ascii=False))
     print(f"Detalle en {salida}")

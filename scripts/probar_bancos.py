@@ -19,9 +19,10 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from dmarc import POLITICAS, SEGURAS, dominio_de  # noqa: E402
 from leer_correos import RAIZ, cargar_banco, procesar  # noqa: E402
 
-OBLIGATORIOS = ["id", "nombre", "pais", "estado", "zona_horaria", "remitentes", "monedas", "tipos"]
+OBLIGATORIOS = ["id", "nombre", "pais", "estado", "zona_horaria", "remitentes", "dmarc", "monedas", "tipos"]
 ESTADOS = ["verificado", "muestras", "buscado"]
 TIPOS = ["consumo", "pago_servicio", "transferencia", "retiro"]
 
@@ -34,6 +35,13 @@ def validar(banco_id):
         errores.append(f"'id' debe ser '{banco_id}' (el nombre de la carpeta)")
     if b.get("estado") not in ESTADOS:
         errores.append(f"'estado' debe ser uno de {ESTADOS}")
+    # El remitente se puede falsificar: solo un dominio con DMARC quarantine/reject manda los falsos a spam
+    for dominio in sorted({dominio_de(r) for r in b.get("remitentes", [])}):
+        pol = b.get("dmarc", {}).get(dominio)
+        if pol not in POLITICAS:
+            errores.append(f"'dmarc' necesita \"{dominio}\": uno de {POLITICAS} (consúltalo con scripts/dmarc.py)")
+        elif b.get("estado") == "verificado" and pol not in SEGURAS:
+            errores.append(f"'verificado' exige DMARC quarantine o reject; {dominio} tiene '{pol}'")
     if not re.fullmatch(r"[+-]\d{2}:\d{2}", b.get("zona_horaria", "")):
         errores.append("'zona_horaria' debe tener la forma -05:00")
     for i, t in enumerate(b.get("tipos", [])):

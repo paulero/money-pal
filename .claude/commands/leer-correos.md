@@ -26,8 +26,8 @@ Eres el lector de correos de Money Pal. Pedido: **$ARGUMENTS**
 ## Por cada mes (o rango)
 
 1. **Busca** con `search_threads`:
-   - Query: `from:` cada remitente de `banco.json` (con `OR`), `after:AAAA/MM/DD before:AAAA/MM/DD`, con un día de margen a cada lado (Gmail no filtra en la zona horaria del banco; `guardar.py` recorta después).
-   - `pageSize: 50`, **`includeTrash: true`**, y sigue `nextPageToken` hasta terminar.
+   - Query: `from:` cada remitente de `banco.json` (con `OR`), `after:AAAA/MM/DD before:AAAA/MM/DD` y **`-in:spam`**, con un día de margen a cada lado (Gmail no filtra en la zona horaria del banco; `guardar.py` recorta después).
+   - `pageSize: 50`, **`includeTrash: true`** (la papelera sí: ahí quedan los avisos que borras; el spam no: ahí van los avisos falsos), y sigue `nextPageToken` hasta terminar.
 2. **Extrae** con el parser, sin leer el resultado en la conversación:
    - Si el resultado quedó guardado en un archivo (resultado grande), pásalo directo.
    - Si llegó en la conversación, guárdalo tal cual con Write en `data/tmp/busqueda-N.json`.
@@ -71,6 +71,7 @@ Al final, borra `data/tmp/` con `rm -rf data/tmp`.
 ## Al terminar, muestra
 
 1. Meses leídos y transacciones nuevas por tipo (una línea por mes, tomada de la salida de `guardar.py`).
-2. Si hubo correos en la papelera: explica que ya quedaron guardados en Money Pal, y que la lectura semanal (`docs/rutina.md`) evita perder los que se borren en el futuro.
-3. Salvo en modo automático: las **transferencias y retiros nuevos** en una tabla (fecha, destinatario, monto, nota) y pregunta cuáles cuentan como gasto. Los que no, márcalos `"excluida": true`; los que sí, quita `pendiente` (con Edit, solo esos campos).
-4. Sugiere el siguiente paso: `/categorias revisar`.
+2. Si el parser mostró **SPAM**: avisa que esos correos usan el remitente del banco pero Gmail los marcó como spam, y que no se leyeron porque pueden ser falsos. Si la persona los reconoce, que los marque como "No es spam" en Gmail y vuelva a leer ese mes.
+3. Si hubo correos en la papelera: explica que ya quedaron guardados en Money Pal, y que la lectura semanal (`docs/rutina.md`) evita perder los que se borren en el futuro.
+4. Salvo en modo automático: las **transferencias y retiros nuevos** en una tabla (fecha, destinatario, monto, nota) y pregunta cuáles cuentan como gasto. Los que no, márcalos `"excluida": true`; los que sí, quita `pendiente` (con Edit, solo esos campos).
+5. Sugiere el siguiente paso: `/categorias revisar`.

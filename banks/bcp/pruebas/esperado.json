@@ -85,5 +85,12 @@
  ],
  "desconocidos": {
   "Un asunto que el BCP nunca había enviado": 1
- }
+ },
+ "spam": [
+  {
+   "id": "prueba-spam1",
+   "fecha": "2026-03-20",
+   "asunto": "Realizaste un consumo con tu Tarjeta de Crédito BCP"
+  }
+ ]
 }

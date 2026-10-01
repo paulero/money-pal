@@ -7,6 +7,9 @@
   "remitentes": [
     "notificaciones@notificacionesbcp.com.pe"
   ],
+  "dmarc": {
+    "notificacionesbcp.com.pe": "quarantine"
+  },
   "limpiar_asunto": [
     " - Servicio de Notificaciones BCP",
     " - BANCA MOVIL BCP"

@@ -44,6 +44,7 @@ Usa [`bcp/banco.json`](bcp/banco.json) como plantilla.
 | `nombre`, `pais`, `estado` | Nombre visible, país (`PE`) y estado (ver arriba). |
 | `zona_horaria` | Hora local de las fechas, p. ej. `-05:00`. |
 | `remitentes` | Correos desde los que el banco envía las notificaciones. |
+| `dmarc` | Política DMARC de cada dominio de `remitentes` (`reject`, `quarantine`, `none` o `sin_registro`), según `scripts/dmarc.py`. Ver abajo. |
 | `limpiar_asunto` | Textos que se quitan del final del asunto al reportarlo (opcional). |
 | `monedas` | Símbolo en el correo → código (`"S/": "PEN"`, `"$": "USD"`). |
 | `medios` | Texto en el correo → `credito` / `debito` (opcional). |
@@ -62,6 +63,12 @@ Cada entrada de `tipos`:
 | `campos` | Solo `cuerpo`: qué etiqueta del correo tiene cada dato (Claude los lee con `get_message`). |
 | `excluir_si` | Solo `cuerpo`: condiciones en que el movimiento no es gasto (cuenta propia, casa de cambio, inversión). |
 
+### Remitentes falsos y DMARC
+
+Cualquiera puede enviar un correo que diga venir del banco. Lo que lo delata es **DMARC**, una regla que el dominio del banco publica: con `quarantine` o `reject`, Gmail manda los avisos falsos a spam o los rechaza. Money Pal **nunca lee el spam** (busca con `-in:spam` y además descarta todo correo con la etiqueta `SPAM`), así que un aviso falso no se convierte en transacción.
+
+Por eso un banco solo puede estar **`verificado`** si todos sus remitentes tienen `quarantine` o `reject`. Con `none` o sin registro puede quedarse en `muestras`, pero un aviso falso podría llegar a la bandeja. Las pruebas del repositorio comparan cada `banco.json` con el DNS real (`scripts/dmarc.py --verificar`).
+
 Un asunto del remitente que no esté en `tipos` ni en `ignorar` aparece como **ASUNTO NUEVO** para revisarlo: así el banco puede cambiar sus correos sin que se pierdan movimientos en silencio.
 
 ## Pruebas
@@ -73,6 +80,6 @@ Las pruebas usan **solo correos inventados** (nombres, montos, comercios y tarje
 .venv/bin/python scripts/probar_bancos.py bcp        # uno
 ```
 
-`probar_bancos.py` valida `banco.json` (campos, patrones y grupos) y compara la salida del parser con `esperado.json`. Incluye en tus pruebas al menos un correo de cada tipo, una vista previa cortada, un asunto a ignorar y uno desconocido.
+`probar_bancos.py` valida `banco.json` (campos, patrones, grupos y DMARC) y compara la salida del parser con `esperado.json`. Incluye en tus pruebas al menos un correo de cada tipo, una vista previa cortada, un asunto a ignorar, uno desconocido y un correo con la etiqueta `SPAM` (debe quedar en `spam`, nunca en `trx`).
 
 **Nunca subas correos reales**, ni siquiera parcialmente.
