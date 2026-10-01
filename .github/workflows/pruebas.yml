@@ -46,6 +46,18 @@ jobs:
       - name: DMARC de los remitentes (comparado con el DNS real)
         run: python scripts/dmarc.py --verificar
 
+      - name: Gmail en solo lectura (lista de permitidos)
+        run: |
+          jq -e '.hooks.PreToolUse[] | select(.matcher == "mcp__claude_ai_Gmail__.*") | .hooks[].command | contains("gmail_solo_lectura.py")' .claude/settings.json
+          for t in search_threads get_message get_thread; do
+            echo "{\"tool_name\":\"mcp__claude_ai_Gmail__$t\"}" | python scripts/gmail_solo_lectura.py
+          done
+          for t in send_message trash_message label_thread una_herramienta_nueva; do
+            if echo "{\"tool_name\":\"mcp__claude_ai_Gmail__$t\"}" | python scripts/gmail_solo_lectura.py 2>/dev/null; then
+              echo "::error::$t debería estar bloqueada"; exit 1
+            fi
+          done
+
       - name: Scripts de shell
         run: for f in scripts/*.sh; do bash -n "$f"; done
 
