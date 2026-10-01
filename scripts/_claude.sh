@@ -27,9 +27,13 @@ HERRAMIENTAS=(
 )
 
 # correr_claude "<prompt>" <archivo_log>
-# dontAsk: todo lo que no esté en HERRAMIENTAS se rechaza, aunque tu configuración de Claude Code sea más permisiva.
+# dontAsk rechaza lo que no esté aprobado, pero "aprobado" también incluye los permisos de tu configuración
+# personal (~/.claude/settings.json) y de .claude/settings.local.json. --setting-sources project carga solo
+# .claude/settings.json de este repositorio (el que bloquea las escrituras en Gmail): así lo único permitido
+# es HERRAMIENTAS. (--strict-mcp-config no sirve: también quita el conector de Gmail de claude.ai.)
 correr_claude() {
-  claude -p "$1" --permission-mode dontAsk --allowedTools "${HERRAMIENTAS[@]}" > "$2" 2>&1
+  claude -p "$1" --permission-mode dontAsk --setting-sources project --allowedTools "${HERRAMIENTAS[@]}" \
+    < /dev/null > "$2" 2>&1
 }
 
 # Inicio del periodo guardado de un banco (AAAA-MM-DD), o vacío si aún no hay datos de ese banco

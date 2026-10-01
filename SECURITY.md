@@ -12,7 +12,8 @@ Money Pal maneja información financiera personal. Estas son nuestras reglas:
 
 ## Protecciones incluidas
 
-- **Rutinas automáticas limitadas.** Las rutinas sin supervisión solo pueden leer Gmail, leer el proyecto y escribir en `data/` y `output/`. Si un correo trae instrucciones escondidas, Claude no puede modificar scripts ni archivos fuera del proyecto.
+- **Rutinas automáticas limitadas.** Las rutinas sin supervisión solo pueden leer Gmail, leer el proyecto y escribir en `data/` y `output/`. Si un correo trae instrucciones escondidas, Claude no puede modificar scripts ni archivos fuera del proyecto. Esos límites no se amplían con tu configuración personal de Claude Code: las rutinas solo cargan la del proyecto.
+- **Avisos falsos fuera.** Cualquiera puede falsificar el remitente de un correo. Money Pal nunca lee el spam, que es donde Gmail manda los avisos falsos de un banco con DMARC `quarantine` o `reject`, y solo marca un banco como verificado si su dominio lo publica. Los correos descartados por spam se muestran para que los revises.
 - **Solo tu usuario.** `data/` y `output/` quedan cerradas para otras cuentas de la computadora (permisos 700/600), y cada archivo nuevo se crea igual.
 - **Respaldos.** Antes de cada guardado se copia la versión anterior a `data/respaldos/` (las últimas 10), y el archivo se reemplaza de una sola vez para que un corte no lo deje a medias.
 - **Registros con fecha de vencimiento.** `output/logs/` incluye resúmenes de tus gastos y se borra automáticamente a los 90 días.

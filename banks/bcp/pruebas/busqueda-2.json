@@ -64,6 +64,21 @@
      ]
     }
    ]
+  },
+  {
+   "id": "hilo-spam",
+   "messages": [
+    {
+     "id": "prueba-spam1",
+     "date": "2026-03-20T15:00:00Z",
+     "subject": "Realizaste un consumo con tu Tarjeta de Crédito BCP - Servicio de Notificaciones BCP",
+     "snippet": "Hola Ana, Realizaste un consumo de S/ 999.00 con tu Tarjeta de Crédito BCP en TIENDA FALSA. Por tu seguridad, te enviamos los datos de tu operación.",
+     "sender": "notificaciones@notificacionesbcp.com.pe",
+     "labelIds": [
+      "SPAM"
+     ]
+    }
+   ]
   }
  ]
 }
