@@ -58,7 +58,7 @@ Cada entrada de `tipos`:
 | `tipo` | `consumo`, `pago_servicio`, `transferencia` o `retiro`. |
 | `asunto_contiene` | Textos que identifican el asunto (sin distinguir mayúsculas). |
 | `fuente` | `snippet` si la vista previa trae los datos; `cuerpo` si hay que abrir el correo. |
-| `patron` | Solo `snippet`: expresión regular con grupos `(?P<moneda>)`, `(?P<monto>)`, `(?P<comercio>)`, `(?P<medio>)` y opcional `(?P<tarjeta>)`. |
+| `patron` | Solo `snippet`: expresión regular con grupos `(?P<moneda>)`, `(?P<monto>)`, `(?P<comercio>)`, `(?P<medio>)` y opcional `(?P<tarjeta>)`. Sin repeticiones anidadas como `(a+)+` o `(\d+,?)*`: las pruebas las rechazan porque pueden congelar la lectura, y cada búsqueda tiene 1 segundo como máximo. |
 | `fijos` | Valores que no vienen en el correo (p. ej. `"comercio": "RETIRO CAJERO"`). |
 | `campos` | Solo `cuerpo`: qué etiqueta del correo tiene cada dato (Claude los lee con `get_message`). |
 | `excluir_si` | Solo `cuerpo`: condiciones en que el movimiento no es gasto (cuenta propia, casa de cambio, inversión). |
@@ -80,6 +80,6 @@ Las pruebas usan **solo correos inventados** (nombres, montos, comercios y tarje
 .venv/bin/python scripts/probar_bancos.py bcp        # uno
 ```
 
-`probar_bancos.py` valida `banco.json` (campos, patrones, grupos y DMARC) y compara la salida del parser con `esperado.json`. Incluye en tus pruebas al menos un correo de cada tipo, una vista previa cortada, un asunto a ignorar, uno desconocido y un correo con la etiqueta `SPAM` (debe quedar en `spam`, nunca en `trx`).
+`probar_bancos.py` valida `banco.json` (campos, patrones, grupos, velocidad de los patrones y DMARC) y compara la salida del parser con `esperado.json`. Incluye en tus pruebas al menos un correo de cada tipo, una vista previa cortada, un asunto a ignorar, uno desconocido y un correo con la etiqueta `SPAM` (debe quedar en `spam`, nunca en `trx`).
 
 **Nunca subas correos reales**, ni siquiera parcialmente.

@@ -1,0 +1,13 @@
+# Money Pal · Dependabot propone actualizar las versiones fijas (con sus hashes) de las librerías y acciones.
+# Cada propuesta llega como Pull Request: pasa las pruebas y la revisión del mantenedor antes de entrar.
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

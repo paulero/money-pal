@@ -20,11 +20,23 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from dmarc import POLITICAS, SEGURAS, dominio_de  # noqa: E402
+from patrones import es_lento, repeticiones_anidadas  # noqa: E402
 from leer_correos import RAIZ, cargar_banco, procesar  # noqa: E402
 
 OBLIGATORIOS = ["id", "nombre", "pais", "estado", "zona_horaria", "remitentes", "dmarc", "monedas", "tipos"]
 ESTADOS = ["verificado", "muestras", "buscado"]
 TIPOS = ["consumo", "pago_servicio", "transferencia", "retiro"]
+
+
+def ejemplos_de(banco_id, tipo):
+    """Vistas previas de las pruebas del banco para ese tipo (sirven de base para los textos difíciles)."""
+    ejemplos = []
+    for ruta in sorted((RAIZ / "banks" / banco_id / "pruebas").glob("busqueda-*.json")):
+        for hilo in json.loads(ruta.read_text(encoding="utf-8")).get("threads", []):
+            for m in hilo.get("messages", []):
+                if any(x.lower() in m.get("subject", "").lower() for x in tipo.get("asunto_contiene", [])):
+                    ejemplos.append(m.get("snippet", ""))
+    return ejemplos[:3]
 
 
 def validar(banco_id):
@@ -52,10 +64,17 @@ def validar(banco_id):
             errores.append(f"{donde}: falta 'asunto_contiene'")
         if t.get("fuente") == "snippet":
             try:
-                grupos = set(re.compile(t.get("patron", "")).groupindex)
+                compilado = re.compile(t.get("patron", ""))
+                grupos = set(compilado.groupindex)
             except re.error as e:
                 errores.append(f"{donde}: patrón inválido: {e}")
                 continue
+            # Un patrón lento congela la lectura de todos los que usan este banco
+            if repeticiones_anidadas(t["patron"]):
+                errores.append(f"{donde}: el patrón repite algo que ya se repite (p. ej. (a+)+): puede volverse "
+                               "lentísimo; reescríbelo sin repeticiones anidadas")
+            elif lento := es_lento(compilado, ejemplos_de(banco_id, t)):
+                errores.append(f"{donde}: el patrón tarda más de 1 s con un texto como \"{lento}\"")
             fijos = set(t.get("fijos", {}))
             for g in ("moneda", "monto", "comercio", "medio"):
                 if g not in grupos and g not in fijos:

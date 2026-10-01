@@ -4,13 +4,20 @@ on:
   push:
   pull_request:
 
+# Solo lectura: las pruebas no publican nada ni necesitan escribir en el repositorio
+permissions:
+  contents: read
+
 jobs:
   pruebas:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # Acciones fijadas por commit (no por etiqueta, que se puede mover). Dependabot propone las nuevas.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
 
@@ -63,7 +70,7 @@ jobs:
 
       - name: Reporte de ejemplo (Excel, PDF y cierre de mes)
         run: |
-          pip install -q -r requirements.txt
+          pip install -q --require-hashes -r requirements.txt
           python scripts/comparar.py --ejemplo
           python scripts/exportar.py --ejemplo --cierre --salida /tmp/salida
           ls -la /tmp/salida

@@ -10,9 +10,12 @@ chmod -R go-rwx data output
 # Los registros incluyen resúmenes de tus gastos: solo se guardan 90 días
 find output/logs -type f -mtime +90 -delete
 
-# Prepara el entorno de Python la primera vez
-if [ ! -x .venv/bin/python ]; then
-  python3 -m venv .venv && .venv/bin/pip install -q -r requirements.txt
+# Prepara el entorno de Python la primera vez, y otra vez si cambia requirements.txt (versiones fijas con hash:
+# pip rechaza cualquier archivo que no coincida, así una librería alterada nunca llega a tus datos)
+REQUISITOS="$(python3 -c 'import hashlib; print(hashlib.sha256(open("requirements.txt", "rb").read()).hexdigest())')"
+if [ ! -x .venv/bin/python ] || [ "$(cat .venv/.requisitos 2>/dev/null)" != "$REQUISITOS" ]; then
+  [ -x .venv/bin/python ] || python3 -m venv .venv
+  .venv/bin/pip install -q --require-hashes -r requirements.txt && echo "$REQUISITOS" > .venv/.requisitos
 fi
 
 # Herramientas permitidas: Gmail solo lectura, leer el proyecto, escribir SOLO en data/ y output/, y los scripts.

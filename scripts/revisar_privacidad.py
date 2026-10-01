@@ -19,6 +19,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from leer_correos import cargar_banco  # noqa: E402
+from patrones import PatronLento, buscar  # noqa: E402
 
 SALUDO = re.compile(r"\b(?:Hola|Estimad[oa])\s+([A-ZÁÉÍÓÚÑ][\wÁÉÍÓÚÑáéíóúñ]+(?:\s+[A-ZÁÉÍÓÚÑ][\wÁÉÍÓÚÑáéíóúñ]+)?)",
                     re.IGNORECASE)
@@ -57,7 +58,10 @@ def sensibles(rutas_reales, banco):
             palabras |= {x for x in MONTO.findall(snippet) if not es_redondo(x)}
             palabras |= {x for x in CODIGO.findall(snippet) if not 2000 <= int(x) <= 2099}
             for t in banco["tipos"]:
-                r = t.get("_re") and t["_re"].search(snippet)
+                try:
+                    r = t.get("_re") and buscar(t["_re"], snippet)
+                except PatronLento:
+                    r = None
                 if r and r.groupdict().get("comercio"):
                     textos.add(r["comercio"].strip().lower())
     return textos, {p for p in palabras if p}
