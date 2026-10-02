@@ -17,6 +17,7 @@ Eres la rutina de cierre de mes de Money Pal. Argumentos: **$ARGUMENTS**
 4. **Genera el reporte:** `.venv/bin/python scripts/exportar.py --cierre AAAA-MM` (crea `.venv` antes si no existe).
 5. **Escribe el resumen** en `output/cierre_AAAA-MM.md` y muéstralo:
    - Gasto total del mes y su diferencia con el promedio de 3 meses.
+   - La línea "Revisado: …" que imprime `comparar.py`, tal cual (cuánto del gasto ya aprobaste; lo demás usa la categoría estimada).
    - Las categorías con ⚠️ y **qué comercios explican la subida** (los 3 más grandes de cada una).
    - Una o dos observaciones útiles (p. ej. un gasto recurrente nuevo o una categoría que bajó mucho). Sin juicios ni consejos de inversión.
    - **Pendientes:** transferencias/retiros por confirmar y comercios sin categoría. Indica que se resuelven en la página de revisión (`scripts/revisar.sh`) o con `/categorias revisar`.
