@@ -65,6 +65,9 @@ jobs:
             fi
           done
 
+      - name: Revisión de categorías (aprobar, cambiar, deshacer)
+        run: python scripts/probar_revisiones.py
+
       - name: Scripts de shell
         run: for f in scripts/*.sh; do bash -n "$f"; done
 

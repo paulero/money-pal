@@ -58,7 +58,7 @@ El enfoque recomendado son **5 categorías**: suficiente detalle para decidir, p
 0. Si hay transacciones con `"pendiente": true` (transferencias y retiros leídos en modo automático), muéstralas primero en una tabla (fecha, destinatario, monto, nota) y pregunta cuáles cuentan como gasto. Las que no: `"excluida": true`. En ambos casos quita `pendiente`.
 1. Asigna `categoria` a cada transacción sin categoría: primero `comercios`, luego `reglas`.
 2. Muestra los comercios que quedaron **sin categoría**, agrupados, con su total, y pregunta a qué categoría va cada uno. Pregunta en bloques de hasta 10.
-3. Guarda las respuestas en `comercios` y actualiza `data/transacciones.json`.
+3. Guarda las respuestas en `comercios` y actualiza `data/transacciones.json`. No cambies los movimientos con `"categoria_manual": true`: el usuario los cambió uno por uno. Lo que el usuario confirme aquí queda con `"revisado": true`.
 4. Si una categoría tiene menos del 3% del gasto durante varios meses, sugiere fusionarla con otra.
 
 ## Al terminar, muestra
