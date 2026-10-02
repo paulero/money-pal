@@ -1,0 +1,112 @@
+:root {
+  --fondo: #f7f7f5;
+  --superficie: #ffffff;
+  --borde: #e2e2dd;
+  --texto: #1d1d1b;
+  --suave: #6b6b66;
+  --acento: #2f6f4f;
+  --acento-texto: #ffffff;
+  --alerta: #a4471f;
+  --chip: #eeeeea;
+  --resalte: #eaf3ee;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #161615;
+    --superficie: #1f1f1e;
+    --borde: #34342f;
+    --texto: #ececea;
+    --suave: #a3a39c;
+    --acento: #6fbf93;
+    --acento-texto: #10231a;
+    --alerta: #e58a62;
+    --chip: #2b2b28;
+    --resalte: #1f3328;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+header, .filtros, #pestanas, main { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+header { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; padding-top: 20px; }
+h1 { font-size: 22px; margin: 0; }
+.sub { color: var(--suave); font-size: 13px; }
+.acciones { display: flex; gap: 8px; flex-wrap: wrap; }
+
+button, select, input {
+  font: inherit;
+  color: var(--texto);
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+button { cursor: pointer; }
+button:disabled { opacity: .45; cursor: default; }
+button.principal { background: var(--acento); color: var(--acento-texto); border-color: var(--acento); }
+button.chico { padding: 3px 8px; font-size: 13px; }
+:focus-visible { outline: 2px solid var(--acento); outline-offset: 1px; }
+
+#pestanas { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 16px; }
+#pestanas button { border-radius: 999px; }
+#pestanas button[aria-selected="true"] { background: var(--texto); color: var(--fondo); border-color: var(--texto); }
+.cuenta { opacity: .7; margin-left: 4px; }
+
+.filtros { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; align-items: center; }
+#buscar { flex: 1 1 220px; }
+#aprobar-visibles { margin-left: auto; }
+
+main { margin-top: 14px; padding-bottom: 80px; }
+.vacio { color: var(--suave); padding: 24px 0; }
+
+.grupo { background: var(--superficie); border: 1px solid var(--borde); border-radius: 10px; margin-bottom: 8px; }
+.grupo > .cabeza { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; padding: 10px 12px; }
+.grupo .nombre { font-weight: 600; flex: 1 1 220px; overflow-wrap: anywhere; }
+.grupo .detalle { color: var(--suave); font-size: 13px; }
+.grupo .filas { border-top: 1px solid var(--borde); }
+
+table { width: 100%; border-collapse: collapse; }
+td { padding: 6px 12px; border-top: 1px solid var(--borde); vertical-align: middle; }
+tr:first-child td { border-top: 0; }
+td.monto { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+td.fecha { white-space: nowrap; color: var(--suave); font-variant-numeric: tabular-nums; }
+td.comercio { overflow-wrap: anywhere; }
+td input.nota { width: 100%; min-width: 120px; }
+.lista { background: var(--superficie); border: 1px solid var(--borde); border-radius: 10px; overflow: hidden; }
+
+.origen { font-size: 11px; padding: 1px 6px; border-radius: 999px; background: var(--chip); color: var(--suave); white-space: nowrap; }
+.origen.manual, .origen.asignada { color: var(--alerta); }
+.ok { color: var(--acento); font-weight: 600; }
+.excluida { color: var(--suave); text-decoration: line-through; }
+.mas { display: block; margin: 12px auto; }
+
+#aviso {
+  position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%);
+  max-width: calc(100% - 32px);
+  background: var(--texto); color: var(--fondo);
+  padding: 10px 14px; border-radius: 10px;
+  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  box-shadow: 0 6px 24px rgba(0,0,0,.2);
+}
+#aviso.error { background: var(--alerta); color: #fff; }
+#aviso button { background: transparent; color: inherit; border-color: currentColor; }
+
+@media (max-width: 640px) {
+  td.ocultable { display: none; }
+  /* Cada movimiento como tarjeta: comercio arriba, luego fecha, monto, categoría y botones */
+  table, tbody { display: block; }
+  tr { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 10px 12px; border-top: 1px solid var(--borde); }
+  tr:first-child { border-top: 0; }
+  td { display: block; padding: 0; border: 0; }
+  td.comercio { flex: 1 1 100%; font-weight: 600; }
+  td.monto { margin-left: auto; }
+  #aprobar-visibles { margin-left: 0; width: 100%; }
+}

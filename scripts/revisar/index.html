@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Revisar categorías · Money Pal</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <header>
+    <div class="titulo">
+      <h1>Revisar categorías</h1>
+      <span class="sub">Money Pal · solo en tu computadora</span>
+    </div>
+    <div class="acciones">
+      <button id="deshacer" type="button" disabled>Deshacer</button>
+      <select id="mes-reporte" aria-label="Mes del reporte"></select>
+      <button id="reporte" type="button">Regenerar reporte</button>
+    </div>
+  </header>
+
+  <nav id="pestanas" role="tablist"></nav>
+
+  <section class="filtros">
+    <input id="buscar" type="search" placeholder="Buscar comercio o nota" aria-label="Buscar">
+    <select id="f-mes" aria-label="Mes"></select>
+    <select id="f-banco" aria-label="Banco"></select>
+    <select id="f-categoria" aria-label="Categoría"></select>
+    <button id="aprobar-visibles" type="button" class="principal" hidden></button>
+  </section>
+
+  <main id="contenido"><p class="vacio">Cargando…</p></main>
+
+  <div id="aviso" role="status" aria-live="polite" hidden></div>
+  <script src="app.js"></script>
+</body>
+</html>

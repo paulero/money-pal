@@ -20,6 +20,7 @@ Money Pal maneja información financiera personal. Estas son nuestras reglas:
 - **Solo tu usuario.** `data/` y `output/` quedan cerradas para otras cuentas de la computadora (permisos 700/600), y cada archivo nuevo se crea igual.
 - **Respaldos.** Antes de cada guardado se copia la versión anterior a `data/respaldos/` (las últimas 10), y el archivo se reemplaza de una sola vez para que un corte no lo deje a medias.
 - **Registros con fecha de vencimiento.** `output/logs/` incluye resúmenes de tus gastos y se borra automáticamente a los 90 días.
+- **Página de revisión solo local.** `scripts/revisar.sh` abre un servidor que solo escucha en `127.0.0.1`. Cada petición necesita un token secreto que cambia cada vez, y se rechaza si viene de otro sitio (Host u Origin ajenos). La página no carga nada de internet y muestra el texto de los correos siempre como texto, nunca como código. Se cierra sola tras 30 minutos sin uso.
 - **Reportes sin fórmulas externas.** Un texto de un correo que empiece con `=` queda como texto en Excel, nunca como fórmula.
 
 ## Recomendado en tu computadora
