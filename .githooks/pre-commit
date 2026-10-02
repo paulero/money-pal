@@ -1,0 +1,27 @@
+#!/bin/bash
+# Money Pal · Bloquea un commit que incluya datos personales o reportes, aunque se hayan agregado con
+# "git add -f". Se activa solo (scripts/privado.py configura core.hooksPath) o con:
+#   git config core.hooksPath .githooks
+# Las pruebas automáticas hacen la misma revisión en GitHub, pero ahí el archivo ya se publicó: este
+# filtro lo detiene antes, en tu computadora.
+set -euo pipefail
+
+PERMITIDOS_JSON='^(examples/.*|\.claude/settings\.json|banks/[a-z0-9-]+/banco\.json|banks/[a-z0-9-]+/pruebas/[^/]+\.json)$'
+
+bloqueados=()
+while IFS= read -r -d '' archivo; do
+  if [[ "$archivo" =~ ^(data|output|reports)/ ]] \
+    || [[ "$archivo" =~ \.(xlsx|xls|csv|pdf|pem|key)$ ]] \
+    || [[ "$(basename "$archivo")" =~ ^\.env(\..*)?$ ]] \
+    || [[ "$(basename "$archivo")" =~ ^perfil.*\.(ya?ml|txt)$ ]] \
+    || { [[ "$archivo" == *.json ]] && ! [[ "$archivo" =~ $PERMITIDOS_JSON ]]; }; then
+    bloqueados+=("$archivo")
+  fi
+done < <(git diff --cached --name-only -z --diff-filter=ACMR)
+
+if [ ${#bloqueados[@]} -gt 0 ]; then
+  echo "Money Pal: este commit incluye archivos que pueden tener datos personales:" >&2
+  printf '  %s\n' "${bloqueados[@]}" >&2
+  echo "Sácalos con: git restore --staged <archivo>" >&2
+  exit 1
+fi

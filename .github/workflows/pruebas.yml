@@ -68,6 +68,21 @@ jobs:
       - name: Revisión de categorías (aprobar, cambiar, deshacer)
         run: python scripts/probar_revisiones.py
 
+      - name: Filtro de commits (.githooks/pre-commit)
+        run: |
+          raiz="$PWD"; t="$(mktemp -d)"; cd "$t"
+          git init -q && git config user.email ci@example.com && git config user.name ci
+          git config core.hooksPath "$raiz/.githooks"
+          probar() {  # probar <pasa|bloquea> <archivo>
+            mkdir -p "$(dirname "$2")" && echo x > "$2" && git add -f "$2"
+            if git commit -qm prueba >/dev/null 2>&1; then r=pasa; git update-ref -d HEAD; else r=bloquea; fi
+            git rm -rq --cached . >/dev/null
+            [ "$r" = "$1" ] || { echo "::error::$2 debería $1r"; exit 1; }
+          }
+          for f in data/transacciones.json output/cierre.pdf reporte.xlsx gastos.csv data/perfil.json scripts/x.json .env; do probar bloquea "$f"; done
+          for f in scripts/perfil.py examples/x.json banks/bcp/banco.json banks/bcp/pruebas/esperado.json docs/perfil.md; do probar pasa "$f"; done
+          jq -e '.permissions.deny | index("Bash(git add -f:*)") and index("Bash(git commit --no-verify:*)")' "$raiz/.claude/settings.json"
+
       - name: Scripts de shell
         run: for f in scripts/*.sh; do bash -n "$f"; done
 
