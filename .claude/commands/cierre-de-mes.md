@@ -19,7 +19,7 @@ Eres la rutina de cierre de mes de Money Pal. Argumentos: **$ARGUMENTS**
    - Gasto total del mes y su diferencia con el promedio de 3 meses.
    - Las categorías con ⚠️ y **qué comercios explican la subida** (los 3 más grandes de cada una).
    - Una o dos observaciones útiles (p. ej. un gasto recurrente nuevo o una categoría que bajó mucho). Sin juicios ni consejos de inversión.
-   - **Pendientes:** transferencias/retiros por confirmar y comercios sin categoría. Indica que se resuelven con `/categorias revisar`.
+   - **Pendientes:** transferencias/retiros por confirmar y comercios sin categoría. Indica que se resuelven en la página de revisión (`scripts/revisar.sh`) o con `/categorias revisar`.
    - Rutas del Excel y el PDF.
 
 ## Reglas

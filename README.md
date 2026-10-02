@@ -21,6 +21,7 @@ Luego, dentro de Claude Code en la carpeta `money-pal`:
 | `/leer-correos` | Lee tus correos nuevos de tus bancos (también de la papelera) y guarda las transacciones en `data/` (solo en tu computadora). Acepta `2026-05` o `3 meses`. |
 | `/categorias` | Te propone 5 categorías según tus gastos, las ajustas a tu gusto y categoriza todo. |
 | `/categorias revisar` | Categoriza los gastos nuevos y te pregunta solo por comercios desconocidos. |
+| `scripts/revisar.sh` | Abre una página, solo en tu computadora, para revisar, aprobar y cambiar las categorías de tus movimientos. |
 | `/exportar` | Genera tu reporte en Excel y PDF en `output/` (también `/exportar pdf septiembre`). |
 | `/nuevo-banco interbank` | Agrega tu banco a Money Pal desde tus propios correos, sin programar, y prepara la contribución. |
 | `/cierre-de-mes` | Rutina de fin de mes: lee lo nuevo, categoriza y compara el mes con tus promedios de 3, 6, 12 y 18 meses. Se puede [programar cada mes](docs/rutina.md). |

@@ -39,7 +39,7 @@ scripts/instalar-rutinas.sh
 
 **¿Por qué semanal?** Money Pal guarda cada transacción en `data/`, así que después ya no importa si borras el correo. Pero Gmail vacía la papelera a los 30 días: si alguien borra sus notificaciones apenas llegan, una lectura solo mensual podría llegar tarde. Leyendo cada semana, nada se pierde **y nadie tiene que cambiar cómo usa su Gmail**.
 
-- Las rutinas corren sin hacer preguntas: lo dudoso queda como pendiente para `/categorias revisar`.
+- Las rutinas corren sin hacer preguntas: lo dudoso queda como pendiente. Revísalo en la página de revisión (`scripts/revisar.sh`) o con `/categorias revisar`.
 - Si tu Mac está dormida a esa hora, corren al despertar. Si está apagada, se saltan: `scripts/sincronizar.sh` o `/cierre-de-mes` a mano lo recuperan.
 - Probarlas ya: `scripts/sincronizar.sh` · `scripts/cierre-de-mes.sh`.
 - Quitarlas: `scripts/instalar-rutinas.sh --quitar`.
