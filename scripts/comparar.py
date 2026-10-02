@@ -119,6 +119,25 @@ def markdown(filas, disponibles, mes):
     return "\n".join(lineas + ["", nota_historia(disponibles)])
 
 
+def avance_revision(trx, mes, tc):
+    """Cuánto del gasto del mes aprobaste en la página de revisión. Lo demás usa la categoría estimada."""
+    gasto = [t for t in trx if not t.get("excluida") and t["fecha"][:7] == mes]
+    soles = lambda ts: sum(t["monto"] * (tc if t["moneda"] == "USD" else 1) for t in ts)
+    revisados = [t for t in gasto if t.get("revisado")]
+    total = soles(gasto)
+    return {"pct": soles(revisados) / total if total else None,
+            "movimientos": len(revisados), "total_movimientos": len(gasto)}
+
+
+def texto_revision(r):
+    if r["pct"] is None:
+        return ""
+    if r["movimientos"] == r["total_movimientos"]:
+        return "Revisado: 100% del gasto del mes."
+    return (f"Revisado: {r['pct']:.0%} del gasto del mes ({r['movimientos']} de {r['total_movimientos']} movimientos). "
+            "Lo demás usa la categoría estimada por tus reglas; revísalo con scripts/revisar.sh.")
+
+
 def explicar_alertas(trx, filas, mes, tc, n=3):
     """Para cada categoría en alerta, los comercios que más pesaron en el mes."""
     salida = {}
@@ -158,6 +177,7 @@ def main():
     filas, disponibles = comparar(datos["transacciones"], cats, datos["periodo"], mes, tc)
     print(f"Cierre de {mes} (USD a S/ {tc:.2f}, aprox.)\n")
     print(markdown(filas, disponibles, mes))
+    print(texto_revision(avance_revision(datos["transacciones"], mes, tc)))
     alertas = explicar_alertas(datos["transacciones"], filas, mes, tc)
     if alertas:
         print("\n**Qué explica cada ⚠️**\n")

@@ -20,6 +20,7 @@ from revisiones import (  # noqa: E402
     Conflicto, ErrorRevision, Revisiones, aprobar, cambiar_categoria, contar_como_gasto, editar_nota,
 )
 
+from comparar import avance_revision, texto_revision  # noqa: E402
 from revisar import crear_servidor  # noqa: E402
 
 EJEMPLOS = Path(__file__).resolve().parent.parent / "examples"
@@ -154,6 +155,16 @@ class PruebasRevisiones(unittest.TestCase):
         self.assertFalse(v["puede_deshacer"])
         with self.assertRaises(ErrorRevision):
             self.r.deshacer(v["version"])
+
+    def test_avance_revision(self):
+        v = self.r.cargar()
+        sep = [t for t in v["transacciones"] if t["fecha"].startswith("2026-09") and t["estado"] == "por_revisar"]
+        self.assertEqual(avance_revision(self.leer("transacciones.json")["transacciones"], "2026-09", 3.5)["pct"], 0)
+        self.r.aplicar(v["version"], aprobar, [t["id"] for t in sep])
+        r = avance_revision(self.leer("transacciones.json")["transacciones"], "2026-09", 3.5)
+        self.assertAlmostEqual(r["pct"], 1)
+        self.assertEqual(texto_revision(r), "Revisado: 100% del gasto del mes.")
+        self.assertEqual(texto_revision(avance_revision([], "2026-09", 3.5)), "")
 
     def test_respaldo(self):
         v = self.r.cargar()

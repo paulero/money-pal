@@ -279,13 +279,14 @@ def exportar_excel(filas, cats, tc, meses_periodo, ruta, cierre=None):
     anchos(ws, [34, 24, 14, 14, 12, 26])
 
     if cierre:
-        from comparar import VENTANAS, nota_historia, variacion
-        mes, comp, disponibles = cierre
+        from comparar import VENTANAS, nota_historia, texto_revision, variacion
+        mes, comp, disponibles, revision = cierre
         ws = wb.create_sheet("Cierre de mes", 0)
         wb.active = 0
         ws["A1"] = f"Cierre de {mes_nombre(mes).lower()} · comparado con meses anteriores (aprox. PEN)"
         ws["A1"].font = Font(bold=True, size=14)
         ws["A2"] = nota_historia(disponibles) or "Todos los promedios usan meses completos."
+        ws["A3"] = texto_revision(revision)
         tabla(ws, 4, ["Categoría", mes_nombre(mes)] + [f"Promedio {n} meses" for n in VENTANAS]
               + [f"vs {n}m" for n in VENTANAS] + ["Alerta"])
         alerta = PatternFill("solid", fgColor="FEE2E2")
@@ -349,8 +350,8 @@ def exportar_pdf(filas, cats, tc, meses_periodo, ruta, cierre=None):
                    f"USD convertido a S/ {tc:.2f} (aprox.)", sub), Spacer(1, 8)]
 
     if cierre:
-        from comparar import VENTANAS, nota_historia, texto_variacion, variacion
-        mes, comp, disponibles = cierre
+        from comparar import VENTANAS, nota_historia, texto_revision, texto_variacion, variacion
+        mes, comp, disponibles, revision = cierre
         h[0] = Paragraph(f"Money Pal · Cierre de {mes_nombre(mes).lower()}", titulo)
         h.append(Paragraph("Comparado con tus meses anteriores (aprox. PEN)", h2))
         filas_c = [["Categoría", "Este mes"] + [f"Prom. {n}m" for n in VENTANAS] + ["vs 3m"]]
@@ -365,7 +366,10 @@ def exportar_pdf(filas, cats, tc, meses_periodo, ruta, cierre=None):
         t.setStyle(estilo_tabla(extra))
         h.append(t)
         leyenda = "En rojo: categorías que superan su promedio de 3 meses en más de 20% y S/ 100."
-        h += [Spacer(1, 4), Paragraph(" ".join(filter(None, [leyenda, nota_historia(disponibles)])), sub), Spacer(1, 6)]
+        h += [Spacer(1, 4), Paragraph(" ".join(filter(None, [leyenda, nota_historia(disponibles)])), sub)]
+        if texto_revision(revision):
+            h += [Spacer(1, 2), Paragraph(texto_revision(revision), sub)]
+        h.append(Spacer(1, 6))
 
     # Indicadores
     kpis = [("Gasto total aprox.", s(total_pen + total_usd * tc)), ("En soles", s(total_pen)),
@@ -489,8 +493,9 @@ def main():
 
     cierre = None
     if mes_cierre:
-        from comparar import comparar
-        cierre = (mes_cierre, *comparar(datos["transacciones"], cats, datos["periodo"], mes_cierre, tc))
+        from comparar import avance_revision, comparar
+        cierre = (mes_cierre, *comparar(datos["transacciones"], cats, datos["periodo"], mes_cierre, tc),
+                  avance_revision(datos["transacciones"], mes_cierre, tc))
 
     salida = Path(a.salida)
     salida.mkdir(exist_ok=True)
