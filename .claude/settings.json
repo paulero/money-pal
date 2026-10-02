@@ -24,7 +24,14 @@
       "mcp__claude_ai_Gmail__unlabel_thread",
       "mcp__claude_ai_Gmail__update_message_labels",
       "mcp__claude_ai_Gmail__apply_sensitive_message_label",
-      "mcp__claude_ai_Gmail__apply_sensitive_thread_label"
+      "mcp__claude_ai_Gmail__apply_sensitive_thread_label",
+      "Bash(git add -f:*)",
+      "Bash(git add --force:*)",
+      "Bash(git commit --no-verify:*)",
+      "Bash(git commit -n:*)",
+      "Bash(git config core.hooksPath:*)",
+      "Bash(git config --local core.hooksPath:*)",
+      "Bash(git -c core.hooksPath:*)"
     ]
   },
   "hooks": {

@@ -61,6 +61,8 @@ claude
 
 Siempre abre Claude Code **dentro de la carpeta `money-pal`**. Así se aplican las reglas de seguridad del proyecto.
 
+Clónalo en tu carpeta de inicio, **no** en iCloud Drive, Dropbox ni en Escritorio o Documentos si los sincronizas con iCloud: Money Pal te avisa si lo está.
+
 ### Seguridad: Gmail en solo lectura
 
 Dentro de este proyecto, Claude solo puede **buscar y leer** correos. El archivo [`.claude/settings.json`](../.claude/settings.json) deja pasar únicamente las herramientas de lectura de Gmail (las demás, incluidas las que el conector agregue en el futuro, se bloquean) y además bloquea una por una las que modifican tu correo: enviar, responder, reenviar, borrar, crear borradores, marcar como spam o cambiar etiquetas.
