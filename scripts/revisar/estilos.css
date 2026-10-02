@@ -101,5 +101,12 @@ td input.nota { width: 100%; min-width: 120px; }
 
 @media (max-width: 640px) {
   td.ocultable { display: none; }
+  /* Cada movimiento como tarjeta: comercio arriba, luego fecha, monto, categoría y botones */
+  table, tbody { display: block; }
+  tr { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 10px 12px; border-top: 1px solid var(--borde); }
+  tr:first-child { border-top: 0; }
+  td { display: block; padding: 0; border: 0; }
+  td.comercio { flex: 1 1 100%; font-weight: 600; }
+  td.monto { margin-left: auto; }
   #aprobar-visibles { margin-left: 0; width: 100%; }
 }

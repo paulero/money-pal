@@ -80,13 +80,15 @@ async function api(ruta, cuerpo) {
   });
   const json = await r.json().catch(() => ({ error: "Respuesta inválida" }));
   if (r.status === 409) {
-    avisar(json.error, { error: true });
     await cargar();
-    throw new Error(json.error);
+    avisar("Tus datos cambiaron mientras revisabas (p. ej. corrió la lectura semanal). Ya recargué la lista: vuelve a intentarlo.", { error: true });
+  } else if (!r.ok) {
+    avisar(json.error || `Error ${r.status}`, { error: true });
   }
   if (!r.ok) {
-    avisar(json.error || `Error ${r.status}`, { error: true });
-    throw new Error(json.error);
+    const e = new Error(json.error);
+    e.avisado = true;  // ya se mostró en pantalla
+    throw e;
   }
   return json;
 }
@@ -315,6 +317,9 @@ $("reporte").addEventListener("click", async (e) => {
 for (const id of ["buscar", "f-mes", "f-banco", "f-categoria"]) {
   $(id).addEventListener("input", () => { limite = PASO; dibujar(); });
 }
+
+// Los errores del servidor ya se muestran en el aviso: no hace falta que además lleguen a la consola
+window.addEventListener("unhandledrejection", (e) => e.reason && e.reason.avisado && e.preventDefault());
 
 if (!TOKEN) {
   $("contenido").replaceChildren(el("p", { class: "vacio", text: "Abre esta página con scripts/revisar.sh." }));
